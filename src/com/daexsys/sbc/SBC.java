@@ -4,9 +4,10 @@ import com.daexsys.depthz.TextureUtils;
 import com.daexsys.ijen3D.Camera;
 import com.daexsys.ijen3D.IjWindow;
 import com.daexsys.ijen3D.Renderer;
-import com.daexsys.sbc.entities.Player;
-import com.daexsys.sbc.world.Block;
-import com.daexsys.sbc.world.Chunk;
+import com.daexsys.sbc.entity.Player;
+import com.daexsys.sbc.world.Universe;
+import com.daexsys.sbc.world.block.Block;
+import com.daexsys.sbc.world.chunk.Chunk;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -17,13 +18,13 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
-import static org.lwjgl.opengl.GL11.*;
-
 public class SBC {
     public static Player player;
+    private static Universe universe;
 
     public static void main(String[] args) {
-        player = new Player(0,0,0);
+        universe = new Universe();
+        player = new Player(getUniverse().getPlanetAt(0, 0, 0), 0,0,0);
         init();
     }
 
@@ -91,5 +92,9 @@ public class SBC {
 
         IjWindow.setGLClearColor(0.5f,0.5f,0.5f);
         IjWindow.beginRendering();
+    }
+
+    public static Universe getUniverse() {
+        return universe;
     }
 }

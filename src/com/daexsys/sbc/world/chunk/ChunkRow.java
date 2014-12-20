@@ -1,4 +1,6 @@
-package com.daexsys.sbc.world;
+package com.daexsys.sbc.world.chunk;
+
+import com.daexsys.sbc.world.chunk.Chunk;
 
 import java.util.HashMap;
 import java.util.Map;

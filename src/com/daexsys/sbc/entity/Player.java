@@ -1,8 +1,8 @@
-package com.daexsys.sbc.entities;
+package com.daexsys.sbc.entity;
 
 import com.daexsys.ijen3D.entity.Entity;
-import com.daexsys.sbc.world.Chunk;
-import com.daexsys.sbc.world.Planet;
+import com.daexsys.sbc.world.chunk.Chunk;
+import com.daexsys.sbc.world.planet.Planet;
 
 public class Player extends Entity {
     private Planet planet;
@@ -10,6 +10,12 @@ public class Player extends Entity {
     public Player(Planet planet, float x, float y, float z) {
         super(x, y, z);
         this.planet = planet;
+    }
+
+    @Override
+    public void logic() {
+        // TODO: Controls
+        // TODO: Jumping / gravity
     }
 
     /**

@@ -1,4 +1,9 @@
-package com.daexsys.sbc.world;
+package com.daexsys.sbc.world.planet;
+
+import com.daexsys.sbc.world.block.Block;
+import com.daexsys.sbc.world.chunk.Chunk;
+import com.daexsys.sbc.world.chunk.ChunkLevel;
+import com.daexsys.sbc.world.chunk.ChunkRow;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,30 +13,17 @@ import java.util.Set;
 public class Planet {
     private Set<Chunk> chunks = new HashSet<Chunk>();
     private Map<Integer, ChunkLevel> chunkLevelMap = new HashMap<Integer, ChunkLevel>();
-    private PlanetType planetType = PlanetType.GENERIC;
+    private PlanetType planetType = PlanetType.GRASSY;
 
     public Chunk getChunk(int x, int y, int z) {
-//        try {
-//            return chunkLevelMap.get(y).getChunkRow(x).getChunk(z);
-//        } catch (Exception e) {
-//            return null;
-//        }
-
         for(Chunk chunk : chunks) {
-
-            if(chunk.getChunkX() == x && chunk.getChunkY() == y && chunk.getChunkZ() == z) {
-//                System.out.println("Look: "+x + " "+y+" "+z);
-//                System.out.println("Find: "+chunk.getChunkX() + " "+chunk.getChunkY()+" "+chunk.getChunkZ());
-//                System.out.println("yes");
+            if(chunk.getChunkX() == x
+                    && chunk.getChunkY() == y
+                    && chunk.getChunkZ() == z
+                    ) {
                 return chunk;
-            } else {
-//                System.out.println("no");
             }
         }
-
-
-//        System.out.println("Look: "+x + " "+y+" "+z);
-//        System.out.println("no");
 
         return null;
     }
@@ -54,23 +46,16 @@ public class Planet {
         int cY = y / 16;
         int cZ = z / 16;
 
-//        System.out.println("Chunk: "+cX+ " "+cY +" "+cZ);
-
         int iCX = x - cX * 16;
         int iCY = y - cY * 16;
         int iCZ = z - cZ * 16;
 
-//        System.out.println("Inner block coord: "+iCX +" "+iCY+ " "+iCZ);
-
         Chunk chunk = getChunk(cX, cY, cZ);
 
         if(chunk != null) {
-//            System.out.println("Chunk found!");
             return chunk.getBlock(iCX, iCY, iCZ);
         }
 
-//        System.out.println("chunk is null");
-//
         return null;
     }
 

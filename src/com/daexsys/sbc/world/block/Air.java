@@ -1,4 +1,7 @@
-package com.daexsys.sbc.world;
+package com.daexsys.sbc.world.block;
+
+import com.daexsys.sbc.world.block.Block;
+import com.daexsys.sbc.world.chunk.Chunk;
 
 public class Air extends Block {
     public Air() {

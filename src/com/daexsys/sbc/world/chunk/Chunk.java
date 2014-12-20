@@ -1,4 +1,9 @@
-package com.daexsys.sbc.world;
+package com.daexsys.sbc.world.chunk;
+
+import com.daexsys.sbc.SBC;
+import com.daexsys.sbc.world.block.Air;
+import com.daexsys.sbc.world.block.Block;
+import com.daexsys.sbc.world.planet.Planet;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -7,7 +12,7 @@ import java.util.Set;
 public class Chunk {
     public Set<Runnable> renderOperations = new HashSet<Runnable>();
 
-    private Planet world = Universe.getPlanet(0,0,0);
+    private Planet world = SBC.getUniverse().getPlanetAt(0, 0, 0);
 
     private int chunkX = 0;
     private int chunkY = 0;
@@ -33,16 +38,6 @@ public class Chunk {
             }
         }
 
-//        blocks[0][0][0] = grass;
-//        blocks[1][0][0] = grass;
-//
-//        blocks[5][0][0] = grass;
-//        blocks[5][0][1] = grass;
-//
-//        blocks[5][5][5] = grass;
-//        blocks[8][8][8] = grass;
-//        blocks[8][9][8] = grass;
-//        blocks[15][15][15] = grass;
 //
         Random random = new Random();
         if(y < 0) {
@@ -86,11 +81,6 @@ public class Chunk {
                 }
             }
         }
-//
-//        setXYArea(dirt, 14);
-//
-//        setXYArea(grass, 0);
-//        setXYArea(grass, 10);
     }
 
 
@@ -157,7 +147,7 @@ public class Chunk {
 
     public boolean isAir(int x, int y, int z) {
         if(x >= 0 && x <= 15 && y >= 0 && y <= 15 && z >= 0 && z <= 15) {
-            return blocks[x][y][z].id == 0;
+            return blocks[x][y][z].getID() == 0;
         }
 
         Planet world = getWorld();

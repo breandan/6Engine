@@ -1,20 +1,30 @@
 package com.daexsys.sbc.world;
 
+import com.daexsys.sbc.world.planet.Planet;
+import com.daexsys.sbc.world.planet.PlanetCoordinate;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Universe {
-    private static Map<PlanetCoordinate, Planet> planetMap = new HashMap<PlanetCoordinate, Planet>();
+    private Map<PlanetCoordinate, Planet> planetMap = new HashMap<PlanetCoordinate, Planet>();
 
-    static {
-        planetMap.put(new PlanetCoordinate(0,0,0), new Planet());
+    private Planet starterPlanet;
+
+    public Universe() {
+        starterPlanet = new Planet();
+        planetMap.put(new PlanetCoordinate(0,0,0), starterPlanet);
     }
 
-    public static Planet getPlanet(int x, int y, int z) {
+    public Planet getPlanetAt(int x, int y, int z) {
         return planetMap.get(new PlanetCoordinate(x, y, z));
     }
 
-    public static boolean planetExists(int x, int y, int z) {
+    public boolean planetExists(int x, int y, int z) {
         return planetMap.containsKey(new PlanetCoordinate(x, y, z));
+    }
+
+    public Planet getStarterPlanet() {
+        return starterPlanet;
     }
 }

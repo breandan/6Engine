@@ -1,9 +1,9 @@
-package com.daexsys.sbc.generator;
+package com.daexsys.sbc.world.planet.generator;
 
-import com.daexsys.sbc.world.Block;
-import com.daexsys.sbc.world.Chunk;
-import com.daexsys.sbc.world.Planet;
-import com.daexsys.sbc.world.PlanetType;
+import com.daexsys.sbc.world.block.Block;
+import com.daexsys.sbc.world.chunk.Chunk;
+import com.daexsys.sbc.world.planet.Planet;
+import com.daexsys.sbc.world.planet.PlanetType;
 
 public class PlanetGenerator {
     private Planet planet;
@@ -19,7 +19,7 @@ public class PlanetGenerator {
 
         Block stone = null;
 
-        if(planetType == PlanetType.GENERIC) {
+        if(planetType == PlanetType.GRASSY) {
             // If fully underground chunk
             if(y < 0) {
                 for (int i = 0; i < 16; i++) {

@@ -1,4 +1,6 @@
-package com.daexsys.sbc.world;
+package com.daexsys.sbc.world.block;
+
+import com.daexsys.sbc.world.chunk.Chunk;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
@@ -10,8 +12,8 @@ public class Block {
     public static final Block STONE = new Block(5,9);
     public static final Block WOOD = new Block(3,7);
 
-    protected int id = 0;
-    protected int textureID = 3;
+    private int id = 0;
+    private int textureID = 3;
 
     public Block(int id, int textureID) {
         this.id = id;

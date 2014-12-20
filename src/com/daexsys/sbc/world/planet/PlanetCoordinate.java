@@ -1,4 +1,4 @@
-package com.daexsys.sbc.world;
+package com.daexsys.sbc.world.planet;
 
 public class PlanetCoordinate {
     private long x;

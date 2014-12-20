@@ -1,4 +1,6 @@
-package com.daexsys.sbc.world;
+package com.daexsys.sbc.world.block;
+
+import com.daexsys.sbc.world.block.BlockFace;
 
 public class RenderOp implements Runnable {
     private Runnable runnable;
