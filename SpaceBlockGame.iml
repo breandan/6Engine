@@ -7,5 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Ijen3D" level="project" />
+    <orderEntry type="library" name="lwjgl" level="project" />
+    <orderEntry type="library" name="DepthZ" level="project" />
   </component>
 </module>
