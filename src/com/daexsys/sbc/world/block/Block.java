@@ -53,7 +53,6 @@ public class Block {
 //                size, size, size,
 //                size * 2, 0, 3);
 
-
         if (renderBottom) {
             Runnable runnable = new Runnable() {
                 @Override

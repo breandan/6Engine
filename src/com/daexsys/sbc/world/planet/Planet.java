@@ -4,6 +4,7 @@ import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.chunk.Chunk;
 import com.daexsys.sbc.world.chunk.ChunkLevel;
 import com.daexsys.sbc.world.chunk.ChunkRow;
+import com.daexsys.sbc.world.planet.generator.PlanetGenerator;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -98,7 +99,16 @@ public class Planet {
     }
 
     public void attemptGeneration(int x, int y, int z) {
+        System.out.println("generating: "+x +" "+y+" "+z);
 
+        if(getChunk(x, y, z) == null) {
+            PlanetGenerator planetGenerator = new PlanetGenerator(this);
+            planetGenerator.generate(x, y, z);
+        }
+    }
+
+    public Set<Chunk> getChunks() {
+        return chunks;
     }
 
     public PlanetType getPlanetType() {

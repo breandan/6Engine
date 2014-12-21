@@ -12,23 +12,20 @@ public class PlanetGenerator {
         this.planet = planet;
     }
 
-    public void generate(long seed, int x, int y, int z) {
+    public void generate(int x, int y, int z) {
         PlanetType planetType = getPlanet().getPlanetType();
 
         Chunk chunk = new Chunk(x, y, z);
 
-        Block stone = null;
-
         if(planetType == PlanetType.GRASSY) {
             // If fully underground chunk
-            if(y < 0) {
-                for (int i = 0; i < 16; i++) {
-                    chunk.setXYArea(stone, i);
-                }
-            } else {
-
+            for (int i = 0; i < 16; i++) {
+                chunk.setXYArea(Block.DIRT, i);
             }
         }
+
+        chunk.rebuild();
+        planet.addChunk(chunk);
     }
 
     public Planet getPlanet() {

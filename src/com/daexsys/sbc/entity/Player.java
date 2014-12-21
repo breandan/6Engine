@@ -3,6 +3,7 @@ package com.daexsys.sbc.entity;
 import com.daexsys.ijen3D.entity.Entity;
 import com.daexsys.sbc.world.chunk.Chunk;
 import com.daexsys.sbc.world.planet.Planet;
+import org.lwjgl.input.Keyboard;
 
 public class Player extends Entity {
     private Planet planet;
@@ -14,6 +15,19 @@ public class Player extends Entity {
 
     @Override
     public void logic() {
+        if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
+            walkForward(1);
+        } else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            walkForward(-1);
+        }
+
+        if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            walkSideways(1);
+        } else if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            walkSideways(-1);
+        }
+
+        generateAroundPlayer();
         // TODO: Controls
         // TODO: Jumping / gravity
     }
@@ -39,7 +53,7 @@ public class Player extends Entity {
      * @return the X coordinate of the chunk the player is in
      */
     public int getChunkX() {
-        return (int) getX() / 16;
+        return (int) getX() / 32;
     }
 
     /**
@@ -47,7 +61,7 @@ public class Player extends Entity {
      * @return the Y coordinate of the chunk the player is in
      */
     public int getChunkY() {
-        return (int) getY() / 16;
+        return (int) getY() / 32;
     }
 
     /**
@@ -55,7 +69,7 @@ public class Player extends Entity {
      * @return the Z coordinate fo the chunk the player is in
      */
     public int getChunkZ() {
-        return (int) getZ() /16;
+        return (int) getZ() / 32;
     }
 
     /**
@@ -67,12 +81,12 @@ public class Player extends Entity {
         int cY = getChunkY();
         int cZ = getChunkZ();
 
+        System.out.println("attempting");
+
         for (int i = cX - 3; i < cX + 3; i++) {
-            for (int j = cY - 3; j < cY + 3; j++) {
                 for (int k = cZ - 3; k < cZ + 3; k++) {
-                    getPlanet().attemptGeneration(cX, cY, cZ);
+                    getPlanet().attemptGeneration(i, 0, k);
                 }
-            }
         }
     }
 }

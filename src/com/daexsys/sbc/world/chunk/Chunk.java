@@ -1,6 +1,7 @@
 package com.daexsys.sbc.world.chunk;
 
 import com.daexsys.sbc.SBC;
+import com.daexsys.sbc.entity.Player;
 import com.daexsys.sbc.world.block.Air;
 import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.planet.Planet;
@@ -222,8 +223,18 @@ public class Chunk {
     }
 
     public void render() {
-        for(Runnable runnable : renderOperations) {
-            runnable.run();
+        Player player = SBC.getPlayer();
+
+        int cX = player.getChunkX();
+        int cY = player.getChunkY();
+        int cZ = player.getChunkZ();
+
+        if(cX > getChunkX() - 3 && cX < getChunkX() + 3) {
+            if(cZ > getChunkZ() - 3 && cZ < getChunkZ() + 3) {
+                for(Runnable runnable : renderOperations) {
+                    runnable.run();
+                }
+            }
         }
     }
 }

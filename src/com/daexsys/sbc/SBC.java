@@ -37,32 +37,24 @@ public class SBC {
             e.printStackTrace();
         }
 
-        final Camera camera = new Camera(0, 0, 0, 90, 250f, 0.8f);
+        final Camera camera = new Camera(0, -32, 0, 90, 250f, 0.8f);
         IjWindow.setCamera(camera);
-
-        final Chunk chunk = new Chunk(0,0,0);
-        final Chunk chunk2 = new Chunk(1,0,1);
-        final Chunk chunk3 = new Chunk(-1,0,-1);
-
-        for (int i = 0; i < 16; i++) {
-            chunk.setXYArea(Block.DIRT, i);
-            chunk2.setXYArea(Block.DIRT, i);
-            chunk3.setXYArea(Block.DIRT, i);
-        }
-
-        chunk.rebuild();
-        chunk2.rebuild();
-        chunk3.rebuild();
+        camera.setEntity(player);
+        player.setY(-32);
 
         IjWindow.addRenderer(new Renderer() {
             @Override
             public void render() {
-                chunk.render();
-                chunk2.render();
-                chunk3.render();
+                try {
+                    for (Chunk chunk : getUniverse().getStarterPlanet().getChunks()) {
+                        chunk.render();
+                    }
+                } catch (Exception e) {
 
-                System.out.println(camera.getYaw());
-                System.out.println(camera.getPitch());
+                }
+
+                System.out.println(player.getYaw());
+                System.out.println(player.getPitch());
             }
         });
 
@@ -72,14 +64,11 @@ public class SBC {
             @Override
             public void run() {
                 while(true) {
-                    camera.setPitch(camera.getPitch() + Mouse.getDY() * -0.3f);
-                    camera.setYaw(camera.getYaw() + Mouse.getDX() * 0.3f);
+                    // Mouse Rotation
+                    player.setPitch(player.getPitch() + Mouse.getDY() * -0.3f);
+                    player.setYaw(player.getYaw() + Mouse.getDX() * 0.3f);
 
-                    if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-                        camera.setX(camera.getX() + 0.05f);
-                    } else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-                        camera.setX(camera.getX() - 0.05f);
-                    }
+                    player.logic();
 
                     try {
                         Thread.sleep(25);
@@ -96,5 +85,9 @@ public class SBC {
 
     public static Universe getUniverse() {
         return universe;
+    }
+
+    public static Player getPlayer() {
+        return player;
     }
 }
