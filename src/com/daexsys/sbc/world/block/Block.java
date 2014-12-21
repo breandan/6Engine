@@ -233,4 +233,8 @@ public class Block {
             chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.BACK));
         }
     }
+
+    public static Block getBlockByID(byte id) {
+        return null;
+    }
 }
