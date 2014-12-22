@@ -126,7 +126,7 @@ public class Chunk {
         }
     }
 
-    public void setWorld(Planet world) {
+    public void setPlanet(Planet world) {
         this.world = world;
     }
 
