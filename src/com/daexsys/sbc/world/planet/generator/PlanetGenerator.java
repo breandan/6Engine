@@ -3,8 +3,12 @@ package com.daexsys.sbc.world.planet.generator;
 import com.daexsys.sbc.world.block.Air;
 import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.chunk.Chunk;
+import com.daexsys.sbc.world.io.SaveChunksToDisk;
 import com.daexsys.sbc.world.planet.Planet;
+import com.daexsys.sbc.world.planet.PlanetCoordinate;
 import com.daexsys.sbc.world.planet.PlanetType;
+
+import java.io.IOException;
 
 public class PlanetGenerator {
     private Planet planet;
@@ -37,6 +41,12 @@ public class PlanetGenerator {
                         chunk.setXYArea(Block.STONE, i);
                     }
                 }
+        }
+
+        try {
+            new SaveChunksToDisk("test", new PlanetCoordinate(0,0,0)).save(chunk);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         // Rebuild chunk render geometry.

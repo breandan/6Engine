@@ -15,7 +15,14 @@ public class SBGServer {
 
     public static void startServer() {
         universe = new Universe();
-        Server.start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Server.start();
+            }
+        }).start();
+        ;
 
         Server.addClientConnectionListener(new ClientConnectionHandler());
     }

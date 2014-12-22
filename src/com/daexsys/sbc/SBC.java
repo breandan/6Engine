@@ -5,6 +5,8 @@ import com.daexsys.ijen3D.Camera;
 import com.daexsys.ijen3D.IjWindow;
 import com.daexsys.ijen3D.Renderer;
 import com.daexsys.sbc.entity.Player;
+import com.daexsys.sbc.net.SBGClient;
+import com.daexsys.sbc.net.SBGServer;
 import com.daexsys.sbc.world.Universe;
 import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.chunk.Chunk;
@@ -23,8 +25,17 @@ public class SBC {
     private static Universe universe;
 
     public static void main(String[] args) {
+        SBGServer.startServer();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+//        SBGClient.connect();
+
         universe = new Universe();
-        player = new Player(getUniverse().getPlanetAt(0, 0, 0), 0,0,0);
+        player = new Player(SBGServer.getUniverse().getPlanetAt(0, 0, 0), 0,0,0);
         init();
     }
 
