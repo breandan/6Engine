@@ -20,8 +20,8 @@ public class Block {
         this.textureID = textureID;
     }
 
-    public int getID() {
-        return id;
+    public byte getID() {
+        return (byte) id;
     }
 
     public int getTextureID() {
