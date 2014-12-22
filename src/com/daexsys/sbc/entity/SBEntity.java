@@ -16,6 +16,14 @@ public class SBEntity extends Entity {
     }
 
     /**
+     * Sets the planet that the player is currently on.
+     * @param planet the planet that the player is currenlty on.
+     */
+    public void setPlanet(Planet planet) {
+        this.planet = planet;
+    }
+
+    /**
      * The current planet the entity is on
      * @return the entity's current entity
      */
