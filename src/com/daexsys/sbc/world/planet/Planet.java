@@ -221,10 +221,18 @@ public class Planet {
         }
     }
 
+    /**
+     * Get the set of all chunks in this planet.
+     * @return the set of all chunks in this planet
+     */
     public Set<Chunk> getChunks() {
         return chunks;
     }
 
+    /**
+     * Get the type of planet / biome of this planet.
+     * @return the type of planet this is.
+     */
     public PlanetType getPlanetType() {
         return planetType;
     }
