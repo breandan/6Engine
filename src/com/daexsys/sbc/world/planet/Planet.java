@@ -48,7 +48,7 @@ public class Planet {
     }
 
     /**
-     * Remove an entity frmo this planet's entity group.
+     * Remove an entity from this planet's entity group.
      * @param sbEntity the entity to be removed
      */
     public void removeEntity(SBEntity sbEntity) {
