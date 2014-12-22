@@ -37,6 +37,18 @@ public class SBC {
             e.printStackTrace();
         }
 
+        try {
+            TextureUtils.getTexture(ImageIO.read(new File("images/grass.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            TextureUtils.getTexture(ImageIO.read(new File("images/stone.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         final Camera camera = new Camera(0, -32, 0, 90, 250f, 0.8f);
         IjWindow.setCamera(camera);
         camera.setEntity(player);
@@ -57,7 +69,7 @@ public class SBC {
 
         Mouse.setGrabbed(true);
 
-        new Thread(new Runnable() {
+        Thread logicThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while(true) {
@@ -65,8 +77,10 @@ public class SBC {
                     player.setPitch(player.getPitch() + Mouse.getDY() * -0.3f);
                     player.setYaw(player.getYaw() + Mouse.getDX() * 0.3f);
 
+                    // Run player logic.
                     player.logic();
 
+                    // Pause thread for 25 milliseconds.
                     try {
                         Thread.sleep(25);
                     } catch (InterruptedException e) {
@@ -74,9 +88,11 @@ public class SBC {
                     }
                 }
             }
-        }).start();
+        });
+        logicThread.setName("SBG Logic Thread");
+        logicThread.start();
 
-        IjWindow.setGLClearColor(0.5f,0.5f,0.5f);
+        IjWindow.setGLClearColor(0.2f,0.4f,0.6f);
         IjWindow.beginRendering();
     }
 

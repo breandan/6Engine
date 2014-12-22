@@ -6,6 +6,8 @@ import com.daexsys.sbc.world.planet.Planet;
 import org.lwjgl.input.Keyboard;
 
 public class Player extends SBEntity {
+    private long lastCheckTime = System.currentTimeMillis() - 1000;
+
     public Player(Planet planet, float x, float y, float z) {
         super(x, y, z);
         setPlanet(planet);
@@ -14,9 +16,9 @@ public class Player extends SBEntity {
     @Override
     public void logic() {
         if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            walkForward(1);
+            moveForward(1);
         } else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            walkForward(-1);
+            moveForward(-1);
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
@@ -25,7 +27,10 @@ public class Player extends SBEntity {
             walkSideways(-1);
         }
 
-        generateAroundPlayer();
+        if(System.currentTimeMillis() > lastCheckTime + 1000) {
+            lastCheckTime = System.currentTimeMillis();
+            generateAroundPlayer();
+        }
         // TODO: Controls
         // TODO: Jumping / gravity
     }
@@ -36,16 +41,22 @@ public class Player extends SBEntity {
      * Currently attempt to generate a 3x3x3 area of chunks.
      */
     public void generateAroundPlayer() {
-        int cX = getChunkX();
-        int cY = getChunkY();
-        int cZ = getChunkZ();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        cY = 0;
+                int cX = getChunkX();
+                int cY = getChunkY();
+                int cZ = getChunkZ();
 
-        for (int i = cX - 3; i < cX + 3; i++) {
-                for (int k = cZ - 3; k < cZ + 3; k++) {
-                    getPlanet().attemptGeneration(i, cY, k);
+                for (int i = cX - 2; i < cX + 2; i++) {
+                    for (int k = cZ - 2; k < cZ + 2; k++) {
+                        for (int j = cY - 2; j < cY + 2; j++) {
+                            getPlanet().attemptGeneration(i, j, k);
+                        }
+                    }
                 }
-        }
+            }
+        }).start();
     }
 }

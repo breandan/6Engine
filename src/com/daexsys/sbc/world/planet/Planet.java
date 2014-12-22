@@ -213,7 +213,7 @@ public class Planet {
      * @param z the Z coordinate of the chunk to be generated
      */
     public void attemptGeneration(int x, int y, int z) {
-        System.out.println("generating: "+x +" "+y+" "+z);
+//        System.out.println("generating: "+x +" "+y+" "+z);
 
         if(getChunk(x, y, z) == null) {
             PlanetGenerator planetGenerator = new PlanetGenerator(this);

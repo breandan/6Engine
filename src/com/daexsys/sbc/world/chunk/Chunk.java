@@ -209,12 +209,13 @@ public class Chunk {
 
     public void rebuild() {
         if(!rebuilding) {
-            rebuilding = true;
+            final Chunk theChunk = this;
+                    rebuilding = true;
             for (int i = 0; i < 16; i++) {
                 for (int j = 0; j < 16; j++) {
                     for (int k = 0; k < 16; k++) {
                         Block block = blocks[i][j][k];
-                        block.rebuild(this, i, j, k);
+                        block.rebuild(theChunk, i, j, k);
                     }
                 }
             }
@@ -230,9 +231,11 @@ public class Chunk {
         int cZ = player.getChunkZ();
 
         if(cX > getChunkX() - 3 && cX < getChunkX() + 3) {
-            if(cZ > getChunkZ() - 3 && cZ < getChunkZ() + 3) {
-                for(Runnable runnable : renderOperations) {
-                    runnable.run();
+            if(cY > getChunkY() - 3 && cY < getChunkY() + 3) {
+                if(cZ > getChunkZ() - 3 && cZ < getChunkZ() + 3) {
+                    for (Runnable runnable : renderOperations) {
+                        runnable.run();
+                    }
                 }
             }
         }

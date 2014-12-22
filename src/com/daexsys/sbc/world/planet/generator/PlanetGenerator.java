@@ -1,5 +1,6 @@
 package com.daexsys.sbc.world.planet.generator;
 
+import com.daexsys.sbc.world.block.Air;
 import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.chunk.Chunk;
 import com.daexsys.sbc.world.planet.Planet;
@@ -20,9 +21,22 @@ public class PlanetGenerator {
         Chunk chunk = new Chunk(x, y, z);
 
         if(planetType == PlanetType.GRASSY) {
-            for (int i = 0; i < 16; i++) {
-                chunk.setXYArea(Block.DIRT, i);
+            if(y == 0) {
+                for (int i = 0; i < 16; i++) {
+                    chunk.setXYArea(Block.DIRT, i);
+                }
+
+                chunk.setXYArea(Block.GRASS, 15);
+            } else if(y > 0) {
+                for (int i = 0; i < 16; i++) {
+                    chunk.setXYArea(new Air(), i);
+                }
             }
+                else {
+                    for (int i = 0; i < 16; i++) {
+                        chunk.setXYArea(Block.STONE, i);
+                    }
+                }
         }
 
         // Rebuild chunk render geometry.
