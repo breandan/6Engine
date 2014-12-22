@@ -52,9 +52,6 @@ public class SBC {
                 } catch (Exception e) {
 
                 }
-
-                System.out.println(player.getYaw());
-                System.out.println(player.getPitch());
             }
         });
 
