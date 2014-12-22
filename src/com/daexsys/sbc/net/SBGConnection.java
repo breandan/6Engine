@@ -10,11 +10,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class SBGConnection extends Connection {
+public class SBGConnection {
+    private Connection connection;
     private Player player;
 
-    public SBGConnection(Socket socket) {
-        super(socket);
+    public SBGConnection(Connection connection) {
+        this.connection = connection;
     }
 
     public void handlePacket(byte id, DataInputStream dataInputStream) throws IOException {
@@ -24,7 +25,7 @@ public class SBGConnection extends Connection {
             int y = dataInputStream.readInt();
             int z = dataInputStream.readInt();
 
-            DataOutputStream dataOutputStream = getDataOutputStream();
+            DataOutputStream dataOutputStream = connection.getDataOutputStream();
 
             // Get chunk (temporarily just from 0,0,0).
             Chunk chunkToSend = SBGServer.getUniverse().getPlanetAt(0, 0, 0).getChunk(x, y, z);
