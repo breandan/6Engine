@@ -2,9 +2,11 @@ package com.daexsys.sbc.world;
 
 import com.daexsys.sbc.world.planet.Planet;
 import com.daexsys.sbc.world.planet.PlanetCoordinate;
+import com.daexsys.sbc.world.planet.PlanetType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Universe {
     private Map<PlanetCoordinate, Planet> planetMap = new HashMap<PlanetCoordinate, Planet>();
@@ -12,7 +14,7 @@ public class Universe {
     private Planet starterPlanet;
 
     public Universe() {
-        starterPlanet = new Planet();
+        starterPlanet = new Planet(new Random().nextLong(), PlanetType.GRASSY);
         planetMap.put(new PlanetCoordinate(0,0,0), starterPlanet);
     }
 

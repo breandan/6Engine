@@ -13,18 +13,22 @@ public class PlanetGenerator {
     }
 
     public void generate(int x, int y, int z) {
+        // Get this planet's type.
         PlanetType planetType = getPlanet().getPlanetType();
 
+        // Create the chunk object.
         Chunk chunk = new Chunk(x, y, z);
 
         if(planetType == PlanetType.GRASSY) {
-            // If fully underground chunk
             for (int i = 0; i < 16; i++) {
                 chunk.setXYArea(Block.DIRT, i);
             }
         }
 
+        // Rebuild chunk render geometry.
         chunk.rebuild();
+
+        // Add the chunk to it's planet.
         planet.addChunk(chunk);
     }
 
