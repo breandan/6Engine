@@ -1,5 +1,7 @@
 package com.daexsys.sbc.world.planet;
 
+import com.daexsys.ijen3D.entity.EntityGroup;
+import com.daexsys.sbc.entity.SBEntity;
 import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.chunk.Chunk;
 import com.daexsys.sbc.world.chunk.ChunkLevel;
@@ -15,6 +17,20 @@ public class Planet {
     private Set<Chunk> chunks = new HashSet<Chunk>();
     private Map<Integer, ChunkLevel> chunkLevelMap = new HashMap<Integer, ChunkLevel>();
     private PlanetType planetType = PlanetType.GRASSY;
+
+    private EntityGroup entities = new EntityGroup();
+
+    public void addEntity(SBEntity sbEntity) {
+        entities.addEntity(sbEntity);
+    }
+
+    public void removeEntity(SBEntity sbEntity) {
+        entities.removeEntity(sbEntity);
+    }
+
+    public EntityGroup getEntities() {
+        return entities;
+    }
 
     public Chunk getChunk(int x, int y, int z) {
         for(Chunk chunk : chunks) {
