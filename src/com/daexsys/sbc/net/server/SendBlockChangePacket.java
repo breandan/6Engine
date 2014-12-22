@@ -20,7 +20,10 @@ public class SendBlockChangePacket implements Packet {
 
     @Override
     public void write(DataOutputStream dataOutputStream) throws IOException {
+        // Send the packet ID.
         dataOutputStream.writeByte(PACKET_NUMBER);
+
+        // Send the location and the new ID of the changed block.
         dataOutputStream.writeInt(blockChange.getX());
         dataOutputStream.writeInt(blockChange.getY());
         dataOutputStream.writeInt(blockChange.getZ());
