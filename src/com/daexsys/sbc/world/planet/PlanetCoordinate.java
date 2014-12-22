@@ -38,6 +38,6 @@ public class PlanetCoordinate {
 
     @Override
     public int hashCode() {
-        return (int)(x * 32) + (int)(y * 16) + (int)(z * 8);
+        return (int)(x * 65536) + (int)(y * 256) + (int)(z * 16);
     }
 }
