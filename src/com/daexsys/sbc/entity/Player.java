@@ -6,11 +6,9 @@ import com.daexsys.sbc.world.planet.Planet;
 import org.lwjgl.input.Keyboard;
 
 public class Player extends SBEntity {
-    private Planet planet;
-
     public Player(Planet planet, float x, float y, float z) {
         super(x, y, z);
-        this.planet = planet;
+        setPlanet(planet);
     }
 
     @Override
@@ -42,11 +40,11 @@ public class Player extends SBEntity {
         int cY = getChunkY();
         int cZ = getChunkZ();
 
-        System.out.println("attempting");
+        cY = 0;
 
         for (int i = cX - 3; i < cX + 3; i++) {
                 for (int k = cZ - 3; k < cZ + 3; k++) {
-                    getPlanet().attemptGeneration(i, 0, k);
+                    getPlanet().attemptGeneration(i, cY, k);
                 }
         }
     }
