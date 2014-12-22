@@ -5,7 +5,7 @@ import com.daexsys.sbc.world.chunk.Chunk;
 import com.daexsys.sbc.world.planet.Planet;
 import org.lwjgl.input.Keyboard;
 
-public class Player extends Entity {
+public class Player extends SBEntity {
     private Planet planet;
 
     public Player(Planet planet, float x, float y, float z) {
@@ -32,45 +32,6 @@ public class Player extends Entity {
         // TODO: Jumping / gravity
     }
 
-    /**
-     * The current planet the player is on
-     * @return the player's current planet
-     */
-    public Planet getPlanet() {
-        return planet;
-    }
-
-    /**
-     * The current chunk the player is in
-     * @return the player's current chunk
-     */
-    public Chunk getCurrentChunk() {
-        return getPlanet().getChunk(getChunkX(), getChunkY(), getChunkZ());
-    }
-
-    /**
-     * Gets the X coordinate of the current chunk the player is in
-     * @return the X coordinate of the chunk the player is in
-     */
-    public int getChunkX() {
-        return (int) getX() / 32;
-    }
-
-    /**
-     * Gets the Y coordinate of the current chunk the player is in.
-     * @return the Y coordinate of the chunk the player is in
-     */
-    public int getChunkY() {
-        return (int) getY() / 32;
-    }
-
-    /**
-     * Gets the Z coordinate fo the current chunk the player is in.
-     * @return the Z coordinate fo the chunk the player is in
-     */
-    public int getChunkZ() {
-        return (int) getZ() / 32;
-    }
 
     /**
      * Attempt to generate all chunks nearby to the player that are currently ungenerated.
