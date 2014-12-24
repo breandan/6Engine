@@ -30,7 +30,7 @@ public class LoadChunksFromDisk {
                 /* Planet */
                     getPlanetCoordinate().getX() + "_"+getPlanetCoordinate().getY()+"_"+getPlanetCoordinate().getZ() +
                 /* Chunk */
-                    "/"+x+ "_"+y+"_"+z+".dat";
+                    "/" + x + "_" + y + "_" + z + ".dat";
 
         DecodeChunk decodeChunk = new DecodeChunk(x, y, z, new DataInputStream(new FileInputStream(new File(fileName))));
         decodeChunk.decode();

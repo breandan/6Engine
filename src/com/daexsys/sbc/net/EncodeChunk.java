@@ -34,9 +34,15 @@ public class EncodeChunk {
 
                     if(block == previousBlock) {
                         strip++;
+                        System.out.println(block.getID() + " " + strip);
                     } else {
-                        dataOutputStream.writeShort(strip);
-                        dataOutputStream.writeByte(block.getID());
+                        if(previousBlock != null) {
+                            System.out.println("O: " + strip + " " + previousBlock.getID());
+                            dataOutputStream.writeByte(previousBlock.getID());
+                            dataOutputStream.writeShort(strip);
+                        }
+
+                        // Set strip type for this block
                         strip = 1;
                     }
 

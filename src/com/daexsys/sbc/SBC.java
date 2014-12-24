@@ -35,7 +35,7 @@ public class SBC {
 //        SBGClient.connect();
 
         universe = new Universe();
-        player = new Player(SBGServer.getUniverse().getPlanetAt(0, 0, 0), 0,0,0);
+        player = new Player(getUniverse().getPlanetAt(0, 0, 0), 0,0,0);
         init();
     }
 

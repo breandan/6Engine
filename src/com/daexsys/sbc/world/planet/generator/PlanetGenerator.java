@@ -3,11 +3,13 @@ package com.daexsys.sbc.world.planet.generator;
 import com.daexsys.sbc.world.block.Air;
 import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.chunk.Chunk;
+import com.daexsys.sbc.world.io.LoadChunksFromDisk;
 import com.daexsys.sbc.world.io.SaveChunksToDisk;
 import com.daexsys.sbc.world.planet.Planet;
 import com.daexsys.sbc.world.planet.PlanetCoordinate;
 import com.daexsys.sbc.world.planet.PlanetType;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class PlanetGenerator {
@@ -22,7 +24,19 @@ public class PlanetGenerator {
         PlanetType planetType = getPlanet().getPlanetType();
 
         // Create the chunk object.
-        Chunk chunk = new Chunk(x, y, z);
+        Chunk chunk = null;
+//        try {
+//            chunk = new LoadChunksFromDisk("test", new PlanetCoordinate(0,0,0)).load(x,y,z);
+//
+//            // Rebuild chunk render geometry.
+//            chunk.rebuild();
+//
+//            // Add the chunk to it's planet.
+//            planet.addChunk(chunk);
+//        } catch (FileNotFoundException e) {
+//        }
+
+        chunk = new Chunk(x, y, z);
 
         if(planetType == PlanetType.GRASSY) {
             if(y == 0) {
@@ -49,10 +63,7 @@ public class PlanetGenerator {
             e.printStackTrace();
         }
 
-        // Rebuild chunk render geometry.
         chunk.rebuild();
-
-        // Add the chunk to it's planet.
         planet.addChunk(chunk);
     }
 

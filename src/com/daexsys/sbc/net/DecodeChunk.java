@@ -29,7 +29,8 @@ public class DecodeChunk {
     public void decode() {
         int distance = 0;
 
-        while(true) {
+        boolean keepDecoding = true;
+        while(keepDecoding) {
             try {
                 short length = dataInputStream.readShort();
                 byte id = dataInputStream.readByte();
@@ -38,11 +39,13 @@ public class DecodeChunk {
                     set(i, id);
                 }
 
+                System.out.println(chunk.getChunkX() + " " +chunk.getChunkY() + " " + chunk.getChunkZ() + " " +length + " "+id);
+
                 distance = distance + length;
 
                 if(distance >= 4096) return;
             } catch (IOException e) {
-                e.printStackTrace();
+                keepDecoding = false;
             }
         }
     }

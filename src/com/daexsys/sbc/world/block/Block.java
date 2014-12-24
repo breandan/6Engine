@@ -6,17 +6,18 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 public class Block {
-    public static final Block DIRT = new Block(2,1);
     public static final Block GRASS = new Block(1,2);
+    public static final Block DIRT = new Block(2,1);
     public static final Block STONE = new Block(5,3);
+
     public static final Block LEAVES = new Block(4,8);
     public static final Block WOOD = new Block(3,7);
 
-    private int id = 0;
+    private byte id = 0;
     private int textureID = 3;
 
     public Block(int id, int textureID) {
-        this.id = id;
+        this.id = (byte) id;
         this.textureID = textureID;
     }
 

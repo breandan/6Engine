@@ -40,48 +40,48 @@ public class Chunk {
         }
 
 //
-        Random random = new Random();
-        if(y < 0) {
-            for (int i = 0; i < 16; i++) {
-                setXYArea(Block.STONE, i);
-            }
-        }
-        else if(y == 0) {
-            for (int i = 0; i < 12; i++) {
-                setXYArea(Block.STONE, i);
-            }
-            for (int i = 12; i < 15; i++) {
-                setXYArea(Block.DIRT, i);
-
-            }
-            setXYArea(Block.GRASS, 15);
-        } else {
-            for (int i = 0; i < 16; i++) {
-                for (int j = 0; j < 16; j++) {
-                    if(random.nextInt(40)==0) {
-                        blocks[i][0][j] = Block.WOOD;
-                        blocks[i][1][j] = Block.WOOD;
-                        blocks[i][2][j] = Block.WOOD;
-
-                        blocks[i][3][j] = Block.WOOD;
-
-                        blocks[i][4][j] = Block.LEAVES;
-                        try {
-                            blocks[i][4][j + 1] = Block.LEAVES;
-                            blocks[i][4][j - 1] = Block.LEAVES;
-                            blocks[i + 1][4][j] = Block.LEAVES;
-                            blocks[i - 1][4][j] = Block.LEAVES;
-
-                            blocks[i][5][j] = Block.LEAVES;
-                            blocks[i][5][j + 1] = Block.LEAVES;
-                            blocks[i][5][j - 1] = Block.LEAVES;
-                            blocks[i + 1][5][j] = Block.LEAVES;
-                            blocks[i - 1][5][j] = Block.LEAVES;
-                        } catch (Exception e) {}
-                    }
-                }
-            }
-        }
+//        Random random = new Random();
+//        if(y < 0) {
+//            for (int i = 0; i < 16; i++) {
+//                setXYArea(Block.STONE, i);
+//            }
+//        }
+//        else if(y == 0) {
+//            for (int i = 0; i < 12; i++) {
+//                setXYArea(Block.STONE, i);
+//            }
+//            for (int i = 12; i < 15; i++) {
+//                setXYArea(Block.DIRT, i);
+//
+//            }
+//            setXYArea(Block.GRASS, 15);
+//        } else {
+//            for (int i = 0; i < 16; i++) {
+//                for (int j = 0; j < 16; j++) {
+//                    if(random.nextInt(40)==0) {
+//                        blocks[i][0][j] = Block.WOOD;
+//                        blocks[i][1][j] = Block.WOOD;
+//                        blocks[i][2][j] = Block.WOOD;
+//
+//                        blocks[i][3][j] = Block.WOOD;
+//
+//                        blocks[i][4][j] = Block.LEAVES;
+//                        try {
+//                            blocks[i][4][j + 1] = Block.LEAVES;
+//                            blocks[i][4][j - 1] = Block.LEAVES;
+//                            blocks[i + 1][4][j] = Block.LEAVES;
+//                            blocks[i - 1][4][j] = Block.LEAVES;
+//
+//                            blocks[i][5][j] = Block.LEAVES;
+//                            blocks[i][5][j + 1] = Block.LEAVES;
+//                            blocks[i][5][j - 1] = Block.LEAVES;
+//                            blocks[i + 1][5][j] = Block.LEAVES;
+//                            blocks[i - 1][5][j] = Block.LEAVES;
+//                        } catch (Exception e) {}
+//                    }
+//                }
+//            }
+//        }
     }
 
 
@@ -215,7 +215,8 @@ public class Chunk {
                 for (int j = 0; j < 16; j++) {
                     for (int k = 0; k < 16; k++) {
                         Block block = blocks[i][j][k];
-                        block.rebuild(theChunk, i, j, k);
+                        try { block.rebuild(theChunk, i, j, k);
+                    } catch (Exception e) {}
                     }
                 }
             }

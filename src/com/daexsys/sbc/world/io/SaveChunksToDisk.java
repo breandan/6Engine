@@ -31,9 +31,9 @@ public class SaveChunksToDisk {
                 /* World */
                 getWorldName() + "/" +
                 /* Planet */
-                getPlanetCoordinate().getX() + "_"+getPlanetCoordinate().getY()+"_"+getPlanetCoordinate().getZ() +
+                getPlanetCoordinate().getX() + "_" + getPlanetCoordinate().getY()+"_" + getPlanetCoordinate().getZ() +
                 /* Chunk */
-                "/"+chunk.getChunkX()+ "_"+chunk.getChunkY()+"_"+chunk.getChunkZ()+".dat";
+                "/" + chunk.getChunkX() + "_" + chunk.getChunkY() + "_" + chunk.getChunkZ()+".dat";
 
         File file = new File(fileName);
         file.createNewFile();
