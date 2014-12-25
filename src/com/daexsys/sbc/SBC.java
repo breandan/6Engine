@@ -2,12 +2,14 @@ package com.daexsys.sbc;
 
 import com.daexsys.depthz.TextureUtils;
 import com.daexsys.ijen3D.Camera;
+import com.daexsys.ijen3D.Coordinate;
 import com.daexsys.ijen3D.IjWindow;
 import com.daexsys.ijen3D.Renderer;
 import com.daexsys.sbc.entity.Player;
 import com.daexsys.sbc.net.SBGClient;
 import com.daexsys.sbc.net.SBGServer;
 import com.daexsys.sbc.world.Universe;
+import com.daexsys.sbc.world.block.Air;
 import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.chunk.Chunk;
 
@@ -65,6 +67,14 @@ public class SBC {
         camera.setEntity(player);
         player.setY(-32);
 
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                for (int k = 0; k < 6; k++) {
+                    getPlayer().getPlanet().addChunk(new Chunk(i,j,k));
+                }
+            }
+        }
+
         IjWindow.addRenderer(new Renderer() {
             @Override
             public void render() {
@@ -91,6 +101,29 @@ public class SBC {
                     // Run player logic.
                     player.logic();
 
+                    if(Mouse.isButtonDown(0)) {
+//                        for (int amplitude = 0; amplitude < 10; amplitude+=1) {
+//                            Coordinate coordinate = player.getCoordinateLookingAt(amplitude);
+//
+//                            Block atLoc = player.getPlanet().getBlock(
+//                                    (int) coordinate.getX() / 2,
+//                                    (int) coordinate.getY() * -1 / 2,
+//                                    (int) coordinate.getZ() / 2);
+//
+//                            System.out.println("Location: "+player.getX() + " "+player.getY() + " "+player.getZ());
+//                            System.out.println("ampl: "+amplitude+ " " +coordinate.getX() + " "+coordinate.getY() + " "+coordinate.getZ());
+//
+//                            if(!(atLoc instanceof Air)) {
+//                                player.getPlanet().setBlock((int) coordinate.getX(), (int) coordinate.getY(), (int) coordinate.getZ(), Block.DIRT);
+//                                amplitude = 31;
+//                            }
+//                        }
+                        System.out.println((int) player.getX() / 2 + " "+(int) player.getY() * - 1/ 2+ " "+ (int) player.getZ()/ 2);
+
+                        player.getPlanet().setBlock((int) player.getX() / 2, (int) player.getY() * -1 / 2, (int) player.getZ()/ 2, Block.DIRT);
+                    }
+
+
                     // Pause thread for 25 milliseconds.
                     try {
                         Thread.sleep(25);
@@ -103,7 +136,7 @@ public class SBC {
         logicThread.setName("SBG Logic Thread");
         logicThread.start();
 
-        IjWindow.setGLClearColor(0.2f,0.4f,0.6f);
+        IjWindow.setGLClearColor(0.2f,0.4f,0.8f);
         IjWindow.beginRendering();
     }
 

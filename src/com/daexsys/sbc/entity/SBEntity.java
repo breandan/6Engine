@@ -44,7 +44,7 @@ public class SBEntity extends Entity {
      * @return the X coordinate of the chunk the entity is in
      */
     public int getChunkX() {
-        return (int) getX() / 24;
+        return (int) getX() / 32;
     }
 
     /**
@@ -52,7 +52,7 @@ public class SBEntity extends Entity {
      * @return the Y coordinate of the chunk the entity is in
      */
     public int getChunkY() {
-        return (int) getY() / 24;
+        return (int) getY() / 32;
     }
 
     /**
@@ -60,6 +60,6 @@ public class SBEntity extends Entity {
      * @return the Z coordinate fo the chunk the entity is in
      */
     public int getChunkZ() {
-        return (int) getZ() / 24;
+        return (int) getZ() / 32;
     }
 }

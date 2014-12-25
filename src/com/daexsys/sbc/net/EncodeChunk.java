@@ -34,7 +34,6 @@ public class EncodeChunk {
 
                     if(block == previousBlock) {
                         strip++;
-                        System.out.println(block.getID() + " " + strip);
                     } else {
                         if(previousBlock != null) {
                             System.out.println("O: " + strip + " " + previousBlock.getID());
