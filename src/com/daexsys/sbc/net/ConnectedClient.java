@@ -35,7 +35,9 @@ public class ConnectedClient implements Runnable {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                sendChunk(dataOutputStream, i, 0, j);
+                for (int k = -3; k < 3; k++) {
+                    sendChunk(dataOutputStream, i, k, j);
+                }
             }
         }
     }
@@ -47,10 +49,18 @@ public class ConnectedClient implements Runnable {
             dataOutputStream.writeInt(y);
             dataOutputStream.writeInt(z);
 
-            dataOutputStream.writeShort(3840);
-            dataOutputStream.writeByte(0);
-            dataOutputStream.writeShort(256);
-            dataOutputStream.writeByte(1);
+            if(y > 2) {
+                dataOutputStream.writeShort(4096);
+                dataOutputStream.writeByte(60);
+            } else if(y > 1) {
+                dataOutputStream.writeShort(3840);
+                dataOutputStream.writeByte(0);
+                dataOutputStream.writeShort(256);
+                dataOutputStream.writeByte(1);
+            } else {
+                dataOutputStream.writeShort(4096);
+                dataOutputStream.writeByte(2);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

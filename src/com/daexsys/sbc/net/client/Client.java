@@ -39,7 +39,7 @@ public class Client {
                                     int area = 0;
                                     while(area < amount) {
                                         int inner = block % 256;
-                                        Block toPut = type == 0 ? Block.DIRT : Block.GRASS;
+                                        Block toPut = type == 0 ? Block.DIRT : (type == 1 ? Block.GRASS : Block.STONE);
                                         chunk.setNoBlock(inner % 16, block / 256, inner / 16, toPut);
                                         area++;
                                         block++;

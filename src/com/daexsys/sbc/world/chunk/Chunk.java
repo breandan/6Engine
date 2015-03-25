@@ -237,7 +237,7 @@ public class Chunk {
         Player player = SBC.getPlayer();
 
         int cX = player.getChunkX();
-        int cY = player.getChunkY();
+        int cY = player.getChunkY() * -1;
         int cZ = player.getChunkZ();
 
         int vd = 3;
