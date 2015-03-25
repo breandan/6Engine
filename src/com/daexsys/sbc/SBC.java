@@ -5,14 +5,18 @@ import com.daexsys.ijen3D.Camera;
 import com.daexsys.ijen3D.Coordinate;
 import com.daexsys.ijen3D.IjWindow;
 import com.daexsys.ijen3D.Renderer;
+import com.daexsys.ijen3D.entity.Entity;
+import com.daexsys.ijen3D.entity.EntityGroup;
+import com.daexsys.sbc.entity.BPlacer;
 import com.daexsys.sbc.entity.Player;
-import com.daexsys.sbc.net.SBGClient;
-import com.daexsys.sbc.net.SBGServer;
+import com.daexsys.sbc.net.client.Client;
+import com.daexsys.sbc.net.Server;
 import com.daexsys.sbc.world.Universe;
 import com.daexsys.sbc.world.block.Air;
 import com.daexsys.sbc.world.block.Block;
 import com.daexsys.sbc.world.chunk.Chunk;
 
+import com.daexsys.sbc.world.planet.generator.PlanetGenerator;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.DisplayMode;
@@ -25,19 +29,30 @@ import java.io.IOException;
 public class SBC {
     public static Player player;
     private static Universe universe;
+    public static EntityGroup entityGroup;
 
     public static void main(String[] args) {
-        SBGServer.startServer();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-//        SBGClient.connect();
-
         universe = new Universe();
         player = new Player(getUniverse().getPlanetAt(0, 0, 0), 0,0,0);
+
+        entityGroup = new EntityGroup();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Server.startServer();
+            }
+        }).start();
+
+        Client client = new Client();
+        client.connect("127.0.0.1", 2171);
+//        SBGClient.connect();
         init();
     }
 
@@ -66,34 +81,38 @@ public class SBC {
         IjWindow.setCamera(camera);
         camera.setEntity(player);
         player.setY(-32);
+//
+//        for (int i = 0; i < 6; i++) {
+//            for (int j = 0; j < 10; j++) {
+//                for (int k = 0; k < 6; k++) {
+//                    new PlanetGenerator(getPlayer().getPlanet()).generate(i,j,k);
+//                }
+//            }
+//        }
 
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                for (int k = 0; k < 6; k++) {
-                    getPlayer().getPlanet().addChunk(new Chunk(i,j,k));
-                }
-            }
-        }
+        SBC.getPlayer().getPlanet().rebuild();
 
         IjWindow.addRenderer(new Renderer() {
             @Override
             public void render() {
                 try {
-                    for (Chunk chunk : getUniverse().getStarterPlanet().getChunks()) {
+                    for (Chunk chunk : getPlayer().getPlanet().getChunks()) {
                         chunk.render();
                     }
-                } catch (Exception e) {
 
+                    for(Entity entity : SBC.entityGroup.getAllEntities()) {
+                        entity.render();
+                    }
+                } catch (Exception e) {
                 }
             }
         });
-
-        Mouse.setGrabbed(true);
 
         Thread logicThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while(true) {
+                    entityGroup.logic();
                     // Mouse Rotation
                     player.setPitch(player.getPitch() + Mouse.getDY() * -0.3f);
                     player.setYaw(player.getYaw() + Mouse.getDX() * 0.3f);
@@ -102,27 +121,18 @@ public class SBC {
                     player.logic();
 
                     if(Mouse.isButtonDown(0)) {
-//                        for (int amplitude = 0; amplitude < 10; amplitude+=1) {
-//                            Coordinate coordinate = player.getCoordinateLookingAt(amplitude);
-//
-//                            Block atLoc = player.getPlanet().getBlock(
-//                                    (int) coordinate.getX() / 2,
-//                                    (int) coordinate.getY() * -1 / 2,
-//                                    (int) coordinate.getZ() / 2);
-//
-//                            System.out.println("Location: "+player.getX() + " "+player.getY() + " "+player.getZ());
-//                            System.out.println("ampl: "+amplitude+ " " +coordinate.getX() + " "+coordinate.getY() + " "+coordinate.getZ());
-//
-//                            if(!(atLoc instanceof Air)) {
-//                                player.getPlanet().setBlock((int) coordinate.getX(), (int) coordinate.getY(), (int) coordinate.getZ(), Block.DIRT);
-//                                amplitude = 31;
-//                            }
-//                        }
-                        System.out.println((int) player.getX() / 2 + " "+(int) player.getY() * - 1/ 2+ " "+ (int) player.getZ()/ 2);
+                        System.out.println(player.getPX() + " " + player.getPY() + " " + player.getPZ());
 
-                        player.getPlanet().setBlock((int) player.getX() / 2, (int) player.getY() * -1 / 2, (int) player.getZ()/ 2, Block.DIRT);
+                        BlockCoord coordinate = player.getNearestBlock();
+                        System.out.println(coordinate);
+                        if(coordinate != null) {
+                            player.getPlanet().setBlock(coordinate.x, coordinate.y, coordinate.z, Block.DIRT);
+                        }
+
+                        entityGroup.addEntity(new BPlacer(getPlayer().getX(), getPlayer().getY() * -1, getPlayer().getZ(),
+                                -getPlayer().getPitch(), getPlayer().getYaw()));
+//                        player.getPlanet().setBlock(player.getPX(), player.getPY(), player.getPZ(), Block.DIRT);
                     }
-
 
                     // Pause thread for 25 milliseconds.
                     try {
@@ -136,6 +146,7 @@ public class SBC {
         logicThread.setName("SBG Logic Thread");
         logicThread.start();
 
+        Mouse.setGrabbed(true);
         IjWindow.setGLClearColor(0.2f,0.4f,0.8f);
         IjWindow.beginRendering();
     }

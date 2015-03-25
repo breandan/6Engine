@@ -127,6 +127,12 @@ public class Chunk {
         rebuild();
     }
 
+    public void setNoBlock(int x, int y, int z, Block block) {
+        if(x >= 0 && x <= 15 && y >= 0 && y <= 15 && z >= 0 && z <= 15) {
+            blocks[x][y][z] = block;
+        }
+    }
+
     public void setPlanet(Planet world) {
         this.world = world;
     }
@@ -209,9 +215,11 @@ public class Chunk {
     }
 
     public void rebuild() {
+        renderOperations.clear();
         if(!rebuilding) {
             final Chunk theChunk = this;
                     rebuilding = true;
+
             for (int i = 0; i < 16; i++) {
                 for (int j = 0; j < 16; j++) {
                     for (int k = 0; k < 16; k++) {
@@ -232,9 +240,11 @@ public class Chunk {
         int cY = player.getChunkY();
         int cZ = player.getChunkZ();
 
-        if(cX > getChunkX() - 3 && cX < getChunkX() + 3) {
-            if(cY > getChunkY() - 3 && cY < getChunkY() + 3) {
-                if(cZ > getChunkZ() - 3 && cZ < getChunkZ() + 3) {
+        int vd = 3;
+//
+        if(cX > getChunkX() - vd && cX < getChunkX() + vd) {
+            if(cY > getChunkY() - vd && cY < getChunkY() + vd) {
+                if(cZ > getChunkZ() - vd && cZ < getChunkZ() + vd) {
                     for (Runnable runnable : renderOperations) {
                         runnable.run();
                     }

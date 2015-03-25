@@ -50,10 +50,6 @@ public class Block {
         final float floor = size * 2;
         final float ceiling = 0;
 
-//        RenderUtils.renderCube(
-//                size, size, size,
-//                size * 2, 0, 3);
-
         if (renderBottom) {
             Runnable runnable = new Runnable() {
                 @Override
