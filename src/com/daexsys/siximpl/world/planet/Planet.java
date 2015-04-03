@@ -1,27 +1,29 @@
-package com.daexsys.sbc.world.planet;
+package com.daexsys.siximpl.world.planet;
 
 import com.daexsys.ijen3D.entity.EntityGroup;
-import com.daexsys.sbc.entity.SBEntity;
-import com.daexsys.sbc.world.block.Block;
-import com.daexsys.sbc.world.chunk.Chunk;
-import com.daexsys.sbc.world.chunk.ChunkLevel;
-import com.daexsys.sbc.world.chunk.ChunkRow;
-import com.daexsys.sbc.world.planet.generator.PlanetGenerator;
+import com.daexsys.siximpl.entity.SixEntity;
+import com.daexsys.siximpl.world.block.Block;
+import com.daexsys.siximpl.world.chunk.Chunk;
+import com.daexsys.siximpl.world.chunk.ChunkLevel;
+import com.daexsys.siximpl.world.chunk.ChunkRow;
+import com.daexsys.siximpl.world.planet.generator.PlanetGenerator;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A single 'dimension' or world.
+ *
+ * Contains cubic chunks in all directions up to the limit of a 32-bit integer.
+ */
 public class Planet implements BlockWorld {
     // A set of all chunks in this planet.
     private Set<Chunk> chunks = new HashSet<Chunk>();
 
     // A complex map of all chunks for quick access.
     private Map<Integer, ChunkLevel> chunkLevelMap = new HashMap<Integer, ChunkLevel>();
-
-    // The biome of this planet.
-    private PlanetType planetType = PlanetType.GRASSY;
 
     // All entities present on this planet.
     private EntityGroup entities = new EntityGroup();
@@ -32,6 +34,9 @@ public class Planet implements BlockWorld {
     // The terrain generator for this planet.
     private PlanetGenerator planetGenerator;
 
+    // The biome of this planet.
+    private PlanetType planetType = PlanetType.GRASSY;
+
     public Planet(long seed, PlanetType planetType) {
         this.seed = seed;
         this.planetType = planetType;
@@ -40,30 +45,30 @@ public class Planet implements BlockWorld {
     }
 
     /**
-     * Add an entity to this planet's entity group.
-     * @param sbEntity the entity to be added
+     * Get the seed for the terrain generator.
+     * @return the terrain generation seed
      */
-    public void addEntity(SBEntity sbEntity) {
-        entities.addEntity(sbEntity);
+    public long getSeed() {
+        return seed;
     }
 
     /**
-     * Remove an entity from this planet's entity group.
-     * @param sbEntity the entity to be removed
+     * Get the set of all chunks in this planet.
+     * @return the set of all chunks in this planet
      */
-    public void removeEntity(SBEntity sbEntity) {
-        entities.removeEntity(sbEntity);
+    public Set<Chunk> getChunks() {
+        return chunks;
     }
 
     /**
-     * Set a block within this planet.
+     * Set a block within this world.
      * @param x the X coordinate to set the block at
      * @param y the Y coordinate to set the block at
      * @param z the Z coordinate to set the block at
      * @param block the block type to be set here
      */
     public void setBlock(int x, int y, int z, Block block) {
-        // Get the coordinates of the chunks.
+        // Get the coordinates of the chunk this block will be set in.
         int cX = x / 16;
         int cY = y / 16;
         int cZ = z / 16;
@@ -75,6 +80,22 @@ public class Planet implements BlockWorld {
         if(chunk != null) {
             chunk.setBlock(x % 16, y % 16, z % 16, block);
         }
+    }
+
+    /**
+     * Add an entity to this planet's entity group.
+     * @param sixEntity the entity to be added
+     */
+    public void addEntity(SixEntity sixEntity) {
+        entities.addEntity(sixEntity);
+    }
+
+    /**
+     * Remove an entity from this planet's entity group.
+     * @param sixEntity the entity to be removed
+     */
+    public void removeEntity(SixEntity sixEntity) {
+        entities.removeEntity(sixEntity);
     }
 
     /**
@@ -92,14 +113,6 @@ public class Planet implements BlockWorld {
      */
     public PlanetGenerator getPlanetGenerator() {
         return planetGenerator;
-    }
-
-    /**
-     * Get the seed for the terrain generator.
-     * @return the terrain generation seed
-     */
-    public long getSeed() {
-        return seed;
     }
 
     /**
@@ -200,9 +213,9 @@ public class Planet implements BlockWorld {
     /**
      * Rebuild the terrain geometry for this world.
      */
-    public void rebuild() {
+    public void rebuildRenderGeometry() {
         for(Chunk chunk : chunks) {
-            chunk.rebuild();
+            chunk.rebuildRenderGeometry();
         }
     }
 
@@ -219,14 +232,6 @@ public class Planet implements BlockWorld {
             PlanetGenerator planetGenerator = new PlanetGenerator(this);
             planetGenerator.generate(x, y, z);
         }
-    }
-
-    /**
-     * Get the set of all chunks in this planet.
-     * @return the set of all chunks in this planet
-     */
-    public Set<Chunk> getChunks() {
-        return chunks;
     }
 
     /**

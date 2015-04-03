@@ -1,11 +1,9 @@
-package com.daexsys.sbc.entity;
+package com.daexsys.siximpl.entity;
 
-import com.daexsys.sbc.SBC;
-import com.daexsys.sbc.world.block.Block;
+import com.daexsys.siximpl.SBC;
+import com.daexsys.siximpl.world.block.Block;
 
-import static org.lwjgl.opengl.GL11.*;
-
-public class BPlacer extends SBEntity {
+public class BPlacer extends SixEntity {
     private float a;
     private float b;
     private int age = 0;

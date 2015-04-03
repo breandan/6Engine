@@ -1,12 +1,10 @@
-package com.daexsys.sbc.world.planet.generator;
+package com.daexsys.siximpl.world.planet.generator;
 
-import com.daexsys.sbc.world.block.Air;
-import com.daexsys.sbc.world.block.Block;
-import com.daexsys.sbc.world.chunk.Chunk;
-import com.daexsys.sbc.world.planet.Planet;
-import com.daexsys.sbc.world.planet.PlanetType;
-
-import java.io.FileNotFoundException;
+import com.daexsys.siximpl.world.block.Air;
+import com.daexsys.siximpl.world.block.Block;
+import com.daexsys.siximpl.world.chunk.Chunk;
+import com.daexsys.siximpl.world.planet.Planet;
+import com.daexsys.siximpl.world.planet.PlanetType;
 
 public class PlanetGenerator {
     private Planet planet;
@@ -24,7 +22,7 @@ public class PlanetGenerator {
             chunk = new Chunk(x, y, z);
 
             // Rebuild chunk render geometry.
-            chunk.rebuild();
+            chunk.rebuildRenderGeometry();
 
             // Add the chunk to it's planet.
             planet.addChunk(chunk);
@@ -50,7 +48,7 @@ public class PlanetGenerator {
                 }
         }
 
-        chunk.rebuild();
+        chunk.rebuildRenderGeometry();
         planet.addChunk(chunk);
     }
 

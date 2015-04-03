@@ -1,4 +1,4 @@
-package com.daexsys.sbc.net;
+package com.daexsys.siximpl.net;
 
 import java.io.IOException;
 import java.net.ServerSocket;

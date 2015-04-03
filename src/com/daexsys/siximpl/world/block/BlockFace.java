@@ -1,4 +1,4 @@
-package com.daexsys.sbc.world.block;
+package com.daexsys.siximpl.world.block;
 
 public enum BlockFace {
     TOP,

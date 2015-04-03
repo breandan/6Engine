@@ -1,8 +1,8 @@
-package com.daexsys.sbc.world;
+package com.daexsys.siximpl.world;
 
-import com.daexsys.sbc.world.planet.Planet;
-import com.daexsys.sbc.world.planet.PlanetCoordinate;
-import com.daexsys.sbc.world.planet.PlanetType;
+import com.daexsys.siximpl.world.planet.Planet;
+import com.daexsys.siximpl.world.planet.PlanetCoordinate;
+import com.daexsys.siximpl.world.planet.PlanetType;
 
 import java.util.HashMap;
 import java.util.Map;

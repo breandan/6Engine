@@ -1,6 +1,4 @@
-package com.daexsys.sbc.net;
-
-import com.daexsys.ijen3D.net.server.Connection;
+package com.daexsys.siximpl.net;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

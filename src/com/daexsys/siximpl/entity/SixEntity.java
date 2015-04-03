@@ -1,17 +1,17 @@
-package com.daexsys.sbc.entity;
+package com.daexsys.siximpl.entity;
 
 import com.daexsys.ijen3D.entity.Entity;
-import com.daexsys.sbc.world.chunk.Chunk;
-import com.daexsys.sbc.world.planet.Planet;
+import com.daexsys.siximpl.world.chunk.Chunk;
+import com.daexsys.siximpl.world.planet.Planet;
 
-public class SBEntity extends Entity {
+public class SixEntity extends Entity {
     private Planet planet;
 
-    public SBEntity(float x, float y, float z) {
+    public SixEntity(float x, float y, float z) {
         super(x, y, z);
     }
 
-    public SBEntity(float x, float y, float z, float width, float height, float length) {
+    public SixEntity(float x, float y, float z, float width, float height, float length) {
         super(x, y, z, width, height, length);
     }
 

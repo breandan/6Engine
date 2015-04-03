@@ -1,14 +1,11 @@
-package com.daexsys.sbc.entity;
+package com.daexsys.siximpl.entity;
 
-import com.daexsys.ijen3D.Coordinate;
-import com.daexsys.ijen3D.entity.Entity;
-import com.daexsys.sbc.BlockCoord;
-import com.daexsys.sbc.world.block.Block;
-import com.daexsys.sbc.world.chunk.Chunk;
-import com.daexsys.sbc.world.planet.Planet;
+import com.daexsys.siximpl.BlockCoord;
+import com.daexsys.siximpl.world.block.Block;
+import com.daexsys.siximpl.world.planet.Planet;
 import org.lwjgl.input.Keyboard;
 
-public class Player extends SBEntity {
+public class Player extends SixEntity {
     private long lastCheckTime = System.currentTimeMillis() - 1000;
 
     public Player(Planet planet, float x, float y, float z) {

@@ -1,6 +1,4 @@
-package com.daexsys.sbc;
-
-import com.daexsys.sbc.world.block.Block;
+package com.daexsys.siximpl;
 
 public class BlockCoord {
     public int x = 0;

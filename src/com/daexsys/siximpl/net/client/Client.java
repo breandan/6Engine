@@ -1,8 +1,8 @@
-package com.daexsys.sbc.net.client;
+package com.daexsys.siximpl.net.client;
 
-import com.daexsys.sbc.SBC;
-import com.daexsys.sbc.world.block.Block;
-import com.daexsys.sbc.world.chunk.Chunk;
+import com.daexsys.siximpl.SBC;
+import com.daexsys.siximpl.world.block.Block;
+import com.daexsys.siximpl.world.chunk.Chunk;
 
 import java.io.DataInputStream;
 import java.io.IOException;

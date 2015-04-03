@@ -1,23 +1,19 @@
-package com.daexsys.sbc;
+package com.daexsys.siximpl;
 
 import com.daexsys.depthz.TextureUtils;
 import com.daexsys.ijen3D.Camera;
-import com.daexsys.ijen3D.Coordinate;
 import com.daexsys.ijen3D.IjWindow;
 import com.daexsys.ijen3D.Renderer;
 import com.daexsys.ijen3D.entity.Entity;
 import com.daexsys.ijen3D.entity.EntityGroup;
-import com.daexsys.sbc.entity.BPlacer;
-import com.daexsys.sbc.entity.Player;
-import com.daexsys.sbc.net.client.Client;
-import com.daexsys.sbc.net.Server;
-import com.daexsys.sbc.world.Universe;
-import com.daexsys.sbc.world.block.Air;
-import com.daexsys.sbc.world.block.Block;
-import com.daexsys.sbc.world.chunk.Chunk;
+import com.daexsys.siximpl.entity.BPlacer;
+import com.daexsys.siximpl.entity.Player;
+import com.daexsys.siximpl.net.client.Client;
+import com.daexsys.siximpl.net.Server;
+import com.daexsys.siximpl.world.Universe;
+import com.daexsys.siximpl.world.block.Block;
+import com.daexsys.siximpl.world.chunk.Chunk;
 
-import com.daexsys.sbc.world.planet.generator.PlanetGenerator;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.DisplayMode;
 
@@ -90,7 +86,7 @@ public class SBC {
 //            }
 //        }
 
-        SBC.getPlayer().getPlanet().rebuild();
+        SBC.getPlayer().getPlanet().rebuildRenderGeometry();
 
         IjWindow.addRenderer(new Renderer() {
             @Override

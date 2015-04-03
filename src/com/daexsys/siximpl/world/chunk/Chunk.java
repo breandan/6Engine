@@ -1,10 +1,10 @@
-package com.daexsys.sbc.world.chunk;
+package com.daexsys.siximpl.world.chunk;
 
-import com.daexsys.sbc.SBC;
-import com.daexsys.sbc.entity.Player;
-import com.daexsys.sbc.world.block.Air;
-import com.daexsys.sbc.world.block.Block;
-import com.daexsys.sbc.world.planet.Planet;
+import com.daexsys.siximpl.SBC;
+import com.daexsys.siximpl.entity.Player;
+import com.daexsys.siximpl.world.block.Air;
+import com.daexsys.siximpl.world.block.Block;
+import com.daexsys.siximpl.world.planet.Planet;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -124,7 +124,7 @@ public class Chunk {
         if(x >= 0 && x <= 15 && y >= 0 && y <= 15 && z >= 0 && z <= 15) {
             blocks[x][y][z] = block;
         }
-        rebuild();
+        rebuildRenderGeometry();
     }
 
     public void setNoBlock(int x, int y, int z, Block block) {
@@ -214,7 +214,7 @@ public class Chunk {
         return true;
     }
 
-    public void rebuild() {
+    public void rebuildRenderGeometry() {
         renderOperations.clear();
         if(!rebuilding) {
             final Chunk theChunk = this;

@@ -1,7 +1,6 @@
-package com.daexsys.sbc.world.block;
+package com.daexsys.siximpl.world.block;
 
-import com.daexsys.sbc.world.block.Block;
-import com.daexsys.sbc.world.chunk.Chunk;
+import com.daexsys.siximpl.world.chunk.Chunk;
 
 public class Air extends Block {
     public Air() {
