@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Planet {
+public class Planet implements BlockWorld {
     // A set of all chunks in this planet.
     private Set<Chunk> chunks = new HashSet<Chunk>();
 
