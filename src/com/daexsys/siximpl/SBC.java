@@ -77,7 +77,8 @@ public class SBC {
         IjWindow.setCamera(camera);
         camera.setEntity(player);
         player.setY(-32);
-//
+////225, 206
+        IjWindow.setGLClearColor(135, 250, 250);
 //        for (int i = 0; i < 6; i++) {
 //            for (int j = 0; j < 10; j++) {
 //                for (int k = 0; k < 6; k++) {

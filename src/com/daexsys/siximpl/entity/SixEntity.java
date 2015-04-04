@@ -44,7 +44,7 @@ public class SixEntity extends Entity {
      * @return the X coordinate of the chunk the entity is in
      */
     public int getChunkX() {
-        return (int) getX() / 32;
+        return (int) getX() / 25;
     }
 
     /**
@@ -52,7 +52,7 @@ public class SixEntity extends Entity {
      * @return the Y coordinate of the chunk the entity is in
      */
     public int getChunkY() {
-        return (int) getY() / 32;
+        return (int) getY() / 25;
     }
 
     /**
@@ -60,6 +60,6 @@ public class SixEntity extends Entity {
      * @return the Z coordinate fo the chunk the entity is in
      */
     public int getChunkZ() {
-        return (int) getZ() / 32;
+        return (int) getZ() / 25;
     }
 }
