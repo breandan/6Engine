@@ -13,6 +13,14 @@ public class Player extends SixEntity {
         setPlanet(planet);
     }
 
+    public void logic(long delta) {
+        Block block = getPlanet().getBlock(getPX(), getPY(), getPZ());
+
+        if(block != Block.GRASS) {
+            setY(getY() + 1);
+        }
+    }
+
     public int getPX() {
         return new Double(getX() / 1.6).intValue();
     }

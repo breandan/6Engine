@@ -118,6 +118,7 @@ public class SBC {
                     player.logic();
 
                     if(Mouse.isButtonDown(0)) {
+                        player.logic();
                         System.out.println(player.getPX() + " " + player.getPY() + " " + player.getPZ());
 
                         BlockCoord coordinate = player.getNearestBlock();
