@@ -1,12 +1,18 @@
 package com.daexsys.siximpl.entity;
 
+import com.daexsys.ijen3D.net.server.Server;
 import com.daexsys.siximpl.BlockCoord;
+import com.daexsys.siximpl.SBC;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.planet.Planet;
 import org.lwjgl.input.Keyboard;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 public class Player extends SixEntity {
     private long lastCheckTime = System.currentTimeMillis() - 1000;
+    private float vertSpeed = 0.0f;
 
     public Player(Planet planet, float x, float y, float z) {
         super(x, y, z);
@@ -14,11 +20,17 @@ public class Player extends SixEntity {
     }
 
     public void logic(long delta) {
-        Block block = getPlanet().getBlock(getPX(), getPY(), getPZ());
+        Block block = getPlanet().getBlock(getPX(), getPY() - 2, getPZ());
 
-        if(block != Block.GRASS) {
-            setY(getY() + 1);
+        logic();
+
+        if(block != Block.DIRT && block != Block.GRASS && block != Block.STONE) {
+            vertSpeed+= 0.1f;
+        } else {
+            vertSpeed = 0;
         }
+
+        setY(getY() + vertSpeed);
     }
 
     public int getPX() {
@@ -48,15 +60,23 @@ public class Player extends SixEntity {
     @Override
     public void logic() {
         if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            moveForward(1);
+            walkForward(0.5f);
         } else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            moveForward(-1);
+            walkForward(-0.5f);
+        }
+
+        //-2
+        if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+//            setY(getY() - 1);
+            if(vertSpeed == 0) {
+                vertSpeed -= 1f;
+            }
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            walkSideways(1);
+            walkSideways(0.5f);
         } else if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            walkSideways(-1);
+            walkSideways(-0.5f);
         }
 
         if(System.currentTimeMillis() > lastCheckTime + 1000) {
@@ -73,6 +93,18 @@ public class Player extends SixEntity {
      * Currently attempt to generate a 3x3x3 area of chunks.
      */
     public void generateAroundPlayer() {
+//        System.out.println("Setting at " + getPX() + " " + getPY() + " " + getPZ());
+//        SBC.getUniverse().getPlanetAt(0,0,0).setBlockNoRebuild(getPX(), getPY(), getPZ(), Block.DIRT);
+        try {
+            DataOutputStream dataOutputStream = new DataOutputStream(SBC.client.socket.getOutputStream());
+            dataOutputStream.writeByte(5);
+            dataOutputStream.writeInt(getChunkX());
+            dataOutputStream.writeInt(getChunkY());
+            dataOutputStream.writeInt(getChunkZ());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {

@@ -1,10 +1,14 @@
 package com.daexsys.siximpl.world.chunk;
 
+import com.daexsys.ijen3D.IjWindow;
+import com.daexsys.ijen3D.Renderer;
+import com.daexsys.siximpl.BlockCoord;
 import com.daexsys.siximpl.SBC;
 import com.daexsys.siximpl.entity.Player;
 import com.daexsys.siximpl.world.block.Air;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.planet.Planet;
+import org.lwjgl.opengl.GL11;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -13,17 +17,24 @@ import java.util.Set;
 public class Chunk {
     public Set<Runnable> renderOperations = new HashSet<Runnable>();
 
+    // The planet this chunk is on
     private Planet world = SBC.getUniverse().getPlanetAt(0, 0, 0);
 
     private int chunkX = 0;
     private int chunkY = 0;
     private int chunkZ = 0;
 
-    public Air air = new Air();
-
+    // A lock designed to prevent the application from rebuilding while it's already rebuilding
     private boolean rebuilding = false;
 
+    // The id number of this chunk's display list, used for rendering
+    public int displayListNumber = -1;
+
+    // The blocks stored in this chunk
     private Block[][][] blocks = new Block[16][16][16];
+
+    // Blocks in this chunk not integrated into the display list
+    private Set<BlockCoord> tempBlocks = new HashSet<BlockCoord>();
 
     public Chunk(int x, int y, int z) {
         this.chunkX = x;
@@ -34,54 +45,10 @@ public class Chunk {
         for (int i = 0; i < 16; i++) {
             for (int j = 0; j < 16; j++) {
                 for (int k = 0; k < 16; k++) {
-                    blocks[i][j][k] = air;
+                    blocks[i][j][k] = Block.AIR;
                 }
             }
         }
-
-//
-//        Random random = new Random();
-//        if(y < 0) {
-//            for (int i = 0; i < 16; i++) {
-//                setXYArea(Block.STONE, i);
-//            }
-//        }
-//        else if(y == 0) {
-//            for (int i = 0; i < 12; i++) {
-//                setXYArea(Block.STONE, i);
-//            }
-//            for (int i = 12; i < 15; i++) {
-//                setXYArea(Block.DIRT, i);
-//
-//            }
-//            setXYArea(Block.GRASS, 15);
-//        } else {
-//            for (int i = 0; i < 16; i++) {
-//                for (int j = 0; j < 16; j++) {
-//                    if(random.nextInt(40)==0) {
-//                        blocks[i][0][j] = Block.WOOD;
-//                        blocks[i][1][j] = Block.WOOD;
-//                        blocks[i][2][j] = Block.WOOD;
-//
-//                        blocks[i][3][j] = Block.WOOD;
-//
-//                        blocks[i][4][j] = Block.LEAVES;
-//                        try {
-//                            blocks[i][4][j + 1] = Block.LEAVES;
-//                            blocks[i][4][j - 1] = Block.LEAVES;
-//                            blocks[i + 1][4][j] = Block.LEAVES;
-//                            blocks[i - 1][4][j] = Block.LEAVES;
-//
-//                            blocks[i][5][j] = Block.LEAVES;
-//                            blocks[i][5][j + 1] = Block.LEAVES;
-//                            blocks[i][5][j - 1] = Block.LEAVES;
-//                            blocks[i + 1][5][j] = Block.LEAVES;
-//                            blocks[i - 1][5][j] = Block.LEAVES;
-//                        } catch (Exception e) {}
-//                    }
-//                }
-//            }
-//        }
     }
 
 
@@ -124,13 +91,36 @@ public class Chunk {
         if(x >= 0 && x <= 15 && y >= 0 && y <= 15 && z >= 0 && z <= 15) {
             blocks[x][y][z] = block;
         }
-        rebuildRenderGeometry();
+        IjWindow.addRenderer(new Renderer() {
+            @Override
+            public void render() {
+                rebuildRenderGeometry();
+            }
+        });
+        ;
     }
 
-    public void setNoBlock(int x, int y, int z, Block block) {
+    public void setInvisibleBlock(int x, int y, int z, Block block) {
         if(x >= 0 && x <= 15 && y >= 0 && y <= 15 && z >= 0 && z <= 15) {
             blocks[x][y][z] = block;
         }
+    }
+
+    public void setBlockNoRebuild(int x, int y, int z, Block block) {
+        if(getBlock(x, y, z) != null) {
+//            if(getBlock(x, y, z).getID() != block.getID())
+                tempBlocks.add(new BlockCoord(x, y, z));
+        }
+
+        if(x >= 0 && x <= 15 && y >= 0 && y <= 15 && z >= 0 && z <= 15) {
+            blocks[x][y][z] = block;
+        }
+
+//        if(block.getID() == 0) {
+//        }
+//        else {
+//            tempBlocks.remove(new BlockCoord(x, y, z));
+//        }
     }
 
     public void setPlanet(Planet world) {
@@ -215,6 +205,9 @@ public class Chunk {
     }
 
     public void rebuildRenderGeometry() {
+        displayListNumber = GL11.glGenLists(1);
+        GL11.glNewList(displayListNumber, GL11.GL_COMPILE);
+
         renderOperations.clear();
         if(!rebuilding) {
             final Chunk theChunk = this;
@@ -231,6 +224,12 @@ public class Chunk {
             }
             rebuilding = false;
         }
+
+        GL11.glEndList();
+    }
+
+    public void clearTempBlocks() {
+        tempBlocks.clear();
     }
 
     public void render() {
@@ -240,14 +239,63 @@ public class Chunk {
         int cY = player.getChunkY() * -1;
         int cZ = player.getChunkZ();
 
-        int vd = 3;
-//
+        int vd = 6;
+//       GL11.glPushMatrix();
+        {
+
+            for(BlockCoord blockCoord : tempBlocks) {
+//                            System.out.println("bp: " + blockCoord.x + " " + blockCoord.y + " " + blockCoord.z);
+                Block block = getBlock(blockCoord.x, blockCoord.y, blockCoord.z);
+                try {
+                    block.renderSix(this, blockCoord.x, blockCoord.y, blockCoord.z);
+                } catch (Exception e) {
+//                    e.printStackTrace();
+                }
+            }
+
+//            GL11.glPopMatrix();
+        }
         if(cX > getChunkX() - vd && cX < getChunkX() + vd) {
             if(cY > getChunkY() - vd && cY < getChunkY() + vd) {
                 if(cZ > getChunkZ() - vd && cZ < getChunkZ() + vd) {
-                    for (Runnable runnable : renderOperations) {
-                        runnable.run();
+//                    double angleToPlayer = Math.atan2(getChunkY() - cY, getChunkX() - cX);
+//                    double degreeAngleToPlayer = Math.toDegrees(angleToPlayer);
+//                    double anglePlayer = player.getYaw() % 360;
+//
+//                    if(anglePlayer < 0) {
+//                        anglePlayer = 360 + anglePlayer;
+//                    }
+//
+//                    if(degreeAngleToPlayer < 0) {
+//                        degreeAngleToPlayer = 360 + degreeAngleToPlayer;
+//                    }
+//
+//                    degreeAngleToPlayer = degreeAngleToPlayer > 180 ? 360 - degreeAngleToPlayer : degreeAngleToPlayer;
+//                    anglePlayer = degreeAngleToPlayer > 180 ? 360 - degreeAngleToPlayer : degreeAngleToPlayer;
+
+//                        double dist = Math.abs(degreeAngleToPlayer - anglePlayer);
+//
+//                        if (dist > 180) dist = 360 - dist;
+//                        if (Math.abs(dist) < 65) {
+
+//                        System.out.println("rendering: " + displayListNumber);
+
+
+                    GL11.glPushMatrix();
+                    {
+                        // Render built chunk displaylist
+                        GL11.glCallList(displayListNumber);
                     }
+                    GL11.glPopMatrix();
+
+
+
+//                        }
+
+
+//                    for (Runnable runnable : renderOperations) {
+//                        runnable.run();
+//                    }
                 }
             }
         }

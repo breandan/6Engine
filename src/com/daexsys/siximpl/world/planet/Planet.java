@@ -1,5 +1,6 @@
 package com.daexsys.siximpl.world.planet;
 
+import com.daexsys.sixapi.SixWorld;
 import com.daexsys.ijen3D.entity.EntityGroup;
 import com.daexsys.siximpl.entity.SixEntity;
 import com.daexsys.siximpl.world.block.Block;
@@ -18,7 +19,7 @@ import java.util.Set;
  *
  * Contains cubic chunks in all directions up to the limit of a 32-bit integer.
  */
-public class Planet implements BlockWorld {
+public class Planet implements BlockWorld, SixWorld {
     // A set of all chunks in this planet.
     private Set<Chunk> chunks = new HashSet<Chunk>();
 
@@ -79,6 +80,36 @@ public class Planet implements BlockWorld {
         // If the chunk exists, set the block.
         if(chunk != null) {
             chunk.setBlock(x % 16, y % 16, z % 16, block);
+        } else {
+            Chunk chunk2 = new Chunk(cX, cY, cZ);
+            addChunk(chunk2);
+            chunk2.setBlock(x % 16, y % 16, z % 16, block);
+        }
+    }
+
+    public void clearTempBlocks() {
+        for(Chunk chunk : chunks) {
+            chunk.clearTempBlocks();
+        }
+    }
+
+    public void setBlockNoRebuild(int x, int y, int z, Block block) {
+        // Get the coordinates of the chunk this block will be set in.
+        int cX = x / 16;
+        int cY = y / 16;
+        int cZ = z / 16;
+
+        // Get this chunk.
+        Chunk chunk = getChunk(cX, cY, cZ);
+
+        // If the chunk exists, set the block.
+        if(chunk != null) {
+//            System.out.println("place");
+            chunk.setBlockNoRebuild(x % 16, y % 16, z % 16, block);
+        } else {
+            Chunk chunk2 = new Chunk(cX, cY, cZ);
+            addChunk(chunk2);
+            chunk2.setBlockNoRebuild(x % 16, y % 16, z % 16, block);
         }
     }
 
@@ -240,5 +271,30 @@ public class Planet implements BlockWorld {
      */
     public PlanetType getPlanetType() {
         return planetType;
+    }
+
+    @Override
+    public void alterBlockAt(String s, int i, int i1, int i2) {
+        int id = Integer.parseInt(s);
+
+        Block block = null;
+        if(id == 0) {
+            block = Block.AIR;
+        } else if(id == 1) {
+            block = Block.GRASS;
+        } else if(id == 2) {
+            block = Block.DIRT;
+        } else if(id == 5) {
+            block = Block.STONE;
+        }
+
+//        System.out.println("World loc " + i + " " + i1 + " " + i2);
+        setBlockNoRebuild(i, i1, i2, block);
+
+    }
+
+    @Override
+    public String getBlockAt(int i, int i1, int i2) {
+        return getBlock(i, i1, i2).getID() + "";
     }
 }

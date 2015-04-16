@@ -11,6 +11,7 @@ public class Block {
     public static final Block STONE = new Block(5,3);
 
     public static final Block LEAVES = new Block(4,8);
+    public static final Block AIR = new Air();
     public static final Block WOOD = new Block(3,7);
 
     private byte id = 0;
@@ -29,6 +30,205 @@ public class Block {
         return textureID;
     }
 
+    public void renderSix(final Chunk chunk, final int x, final int y, final int z) {        final float size = 0.8f;
+
+        boolean renderTop = true;
+        boolean renderBottom = true;
+
+        boolean renderLeft = true;
+        boolean renderRight = true;
+
+        boolean renderFront = true;
+        boolean renderBack = true;
+
+        final float xO = chunk.getChunkX() * 32 * size;
+        final float yO = chunk.getChunkY() * 32 * size;
+        final float zO = chunk.getChunkZ() * 32 * size;
+
+        final float xSize = size;
+        final float zSize = size;
+        final float floor = size * 2;
+        final float ceiling = 0;
+
+        if (renderBottom) {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+            glPushMatrix();
+            {
+                glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
+
+                glBindTexture(GL_TEXTURE_2D, textureID);
+
+                glBegin(GL_QUADS);
+                {
+                    glTexCoord2f(0, 0);
+                    glVertex3f(xSize, floor, -zSize);
+                    glTexCoord2f(1, 0);
+                    glVertex3f(xSize, floor, zSize);
+                    glTexCoord2f(1, 1);
+                    glVertex3f(-xSize, floor, zSize);
+                    glTexCoord2f(0, 1);
+                    glVertex3f(-xSize, floor, -zSize);
+                }
+                glEnd();
+            }
+            glPopMatrix();
+//                }
+//            };
+
+//            chunk.renderOperations.add(new RenderOp(runnable, x, y, z, BlockFace.BOTTOM));
+        }
+
+        if (renderTop) {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+            glPushMatrix();
+            {
+                glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
+
+                glBindTexture(GL_TEXTURE_2D, textureID);
+
+                glBegin(GL_QUADS);
+                {
+                    glTexCoord2f(0, 0);
+                    glVertex3f(xSize, ceiling, -zSize);
+                    glTexCoord2f(1, 0);
+                    glVertex3f(xSize, ceiling, zSize);
+                    glTexCoord2f(1, 1);
+                    glVertex3f(-xSize, ceiling, zSize);
+                    glTexCoord2f(0, 1);
+                    glVertex3f(-xSize, ceiling, -zSize);
+                }
+                glEnd();
+            }
+            glPopMatrix();
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable, x, y, z, BlockFace.TOP));
+        }
+
+        if (renderLeft) {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+            glPushMatrix();
+            {
+                glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
+
+                glBindTexture(GL_TEXTURE_2D, textureID);
+
+                glBegin(GL_QUADS);
+                {
+                    glTexCoord2f(0, 0);
+                    glVertex3f(-xSize, ceiling, -zSize);
+                    glTexCoord2f(1, 0);
+                    glVertex3f(-xSize, ceiling, zSize);
+                    glTexCoord2f(1, 1);
+                    glVertex3f(-xSize, floor, zSize);
+                    glTexCoord2f(0, 1);
+                    glVertex3f(-xSize, floor, -zSize);
+                }
+                glEnd();
+            }
+            glPopMatrix();
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.LEFT));
+        }
+
+        if (renderRight) {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+            glPushMatrix();
+            {
+                glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
+
+                glBindTexture(GL_TEXTURE_2D, textureID);
+
+                glBegin(GL_QUADS);
+                {
+                    glTexCoord2f(0, 0);
+                    glVertex3f(xSize, ceiling, -zSize);
+                    glTexCoord2f(1, 0);
+                    glVertex3f(xSize, ceiling, zSize);
+                    glTexCoord2f(1, 1);
+                    glVertex3f(xSize, floor, zSize);
+                    glTexCoord2f(0, 1);
+                    glVertex3f(xSize, floor, -zSize);
+                }
+                glEnd();
+            }
+            glPopMatrix();
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable,xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.RIGHT));
+        }
+
+        if (renderFront) {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+            glPushMatrix();
+            {
+                glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
+
+                glBindTexture(GL_TEXTURE_2D, textureID);
+
+                glBegin(GL_QUADS);
+                {
+                    glTexCoord2f(0, 0);
+                    glVertex3f(-xSize, ceiling, -zSize);
+                    glTexCoord2f(1, 0);
+                    glVertex3f(xSize, ceiling, -zSize);
+                    glTexCoord2f(1, 1);
+                    glVertex3f(xSize, floor, -zSize);
+                    glTexCoord2f(0, 1);
+                    glVertex3f(-xSize, floor, -zSize);
+                }
+                glEnd();
+            }
+            glPopMatrix();
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.FRONT));
+        }
+
+        if (renderBack) {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+            glPushMatrix();
+            {
+                glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
+
+                glBindTexture(GL_TEXTURE_2D, textureID);
+
+                glBegin(GL_QUADS);
+                {
+                    glTexCoord2f(0, 0);
+                    glVertex3f(-xSize, ceiling, zSize);
+                    glTexCoord2f(1, 0);
+                    glVertex3f(xSize, ceiling, zSize);
+                    glTexCoord2f(1, 1);
+                    glVertex3f(xSize, floor, zSize);
+                    glTexCoord2f(0, 1);
+                    glVertex3f(-xSize, floor, zSize);
+                }
+                glEnd();
+            }
+            glPopMatrix();
+                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.BACK));
+    }
     public void rebuild(final Chunk chunk, final int x, final int y, final int z) {
         final float size = 0.8f;
 
@@ -51,9 +251,9 @@ public class Block {
         final float ceiling = 0;
 
         if (renderBottom) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
                     glPushMatrix();
                     {
                         glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
@@ -74,16 +274,16 @@ public class Block {
                         glEnd();
                     }
                     glPopMatrix();
-                }
-            };
+//                }
+//            };
 
-            chunk.renderOperations.add(new RenderOp(runnable, x, y, z, BlockFace.BOTTOM));
+//            chunk.renderOperations.add(new RenderOp(runnable, x, y, z, BlockFace.BOTTOM));
         }
 
         if (renderTop) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
                     glPushMatrix();
                     {
                         glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
@@ -104,16 +304,16 @@ public class Block {
                         glEnd();
                     }
                     glPopMatrix();
-                }
-            };
-
-            chunk.renderOperations.add(new RenderOp(runnable, x, y, z, BlockFace.TOP));
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable, x, y, z, BlockFace.TOP));
         }
 
         if (renderLeft) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
                     glPushMatrix();
                     {
                         glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
@@ -134,16 +334,16 @@ public class Block {
                         glEnd();
                     }
                     glPopMatrix();
-                }
-            };
-
-            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.LEFT));
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.LEFT));
         }
 
         if (renderRight) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
                     glPushMatrix();
                     {
                         glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
@@ -164,16 +364,16 @@ public class Block {
                         glEnd();
                     }
                     glPopMatrix();
-                }
-            };
-
-            chunk.renderOperations.add(new RenderOp(runnable,xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.RIGHT));
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable,xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.RIGHT));
         }
 
         if (renderFront) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
                     glPushMatrix();
                     {
                         glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
@@ -194,16 +394,16 @@ public class Block {
                         glEnd();
                     }
                     glPopMatrix();
-                }
-            };
-
-            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.FRONT));
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.FRONT));
         }
 
         if (renderBack) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
                     glPushMatrix();
                     {
                         glTranslatef(xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2));
@@ -224,10 +424,10 @@ public class Block {
                         glEnd();
                     }
                     glPopMatrix();
-                }
-            };
-
-            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.BACK));
+//                }
+//            };
+//
+//            chunk.renderOperations.add(new RenderOp(runnable, xO + (x * size * 2), yO + (y * size * 2), zO + (z * size * 2), BlockFace.BACK));
         }
     }
 
