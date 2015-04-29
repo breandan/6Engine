@@ -34,7 +34,7 @@ public class BPlacer extends SixEntity {
             if(SBC.player.getPY() > getPY()) {
                 SBC.getPlayer().getPlanet().setBlock(getPX(), getPY() + 1, getPZ(), Block.DIRT);
             }
-            System.out.println("placing at " + getPX() + " " + getPY() + " " + getPZ());
+//            System.out.println("placing at " + getPX() + " " + getPY() + " " + getPZ());
             SBC.entityGroup.removeEntity(this);
         }
     }

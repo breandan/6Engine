@@ -2,6 +2,7 @@ package com.daexsys.siximpl.world.planet;
 
 import com.daexsys.sixapi.SixWorld;
 import com.daexsys.ijen3D.entity.EntityGroup;
+import com.daexsys.siximpl.SBC;
 import com.daexsys.siximpl.entity.SixEntity;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.chunk.Chunk;
@@ -9,10 +10,7 @@ import com.daexsys.siximpl.world.chunk.ChunkLevel;
 import com.daexsys.siximpl.world.chunk.ChunkRow;
 import com.daexsys.siximpl.world.planet.generator.PlanetGenerator;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A single 'dimension' or world.
@@ -21,7 +19,7 @@ import java.util.Set;
  */
 public class Planet implements BlockWorld, SixWorld {
     // A set of all chunks in this planet.
-    private Set<Chunk> chunks = new HashSet<Chunk>();
+    private List<Chunk> chunks = new ArrayList<Chunk>();
 
     // A complex map of all chunks for quick access.
     private Map<Integer, ChunkLevel> chunkLevelMap = new HashMap<Integer, ChunkLevel>();
@@ -57,7 +55,7 @@ public class Planet implements BlockWorld, SixWorld {
      * Get the set of all chunks in this planet.
      * @return the set of all chunks in this planet
      */
-    public Set<Chunk> getChunks() {
+    public List<Chunk> getChunks() {
         return chunks;
     }
 
@@ -70,20 +68,20 @@ public class Planet implements BlockWorld, SixWorld {
      */
     public void setBlock(int x, int y, int z, Block block) {
         // Get the coordinates of the chunk this block will be set in.
-        int cX = x / 16;
-        int cY = y / 16;
-        int cZ = z / 16;
+        int cX = x / Chunk.CHUNK_SIZE;
+        int cY = y / Chunk.CHUNK_SIZE;
+        int cZ = z / Chunk.CHUNK_SIZE;
 
         // Get this chunk.
         Chunk chunk = getChunk(cX, cY, cZ);
 
         // If the chunk exists, set the block.
         if(chunk != null) {
-            chunk.setBlock(x % 16, y % 16, z % 16, block);
+            chunk.setBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, z % Chunk.CHUNK_SIZE, block);
         } else {
             Chunk chunk2 = new Chunk(cX, cY, cZ);
             addChunk(chunk2);
-            chunk2.setBlock(x % 16, y % 16, z % 16, block);
+            chunk2.setBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, z % Chunk.CHUNK_SIZE, block);
         }
     }
 
@@ -95,9 +93,9 @@ public class Planet implements BlockWorld, SixWorld {
 
     public void setBlockNoRebuild(int x, int y, int z, Block block) {
         // Get the coordinates of the chunk this block will be set in.
-        int cX = x / 16;
-        int cY = y / 16;
-        int cZ = z / 16;
+        int cX = x / Chunk.CHUNK_SIZE;
+        int cY = y / Chunk.CHUNK_SIZE;
+        int cZ = z / Chunk.CHUNK_SIZE;
 
         // Get this chunk.
         Chunk chunk = getChunk(cX, cY, cZ);
@@ -105,14 +103,33 @@ public class Planet implements BlockWorld, SixWorld {
         // If the chunk exists, set the block.
         if(chunk != null) {
 //            System.out.println("place");
-            chunk.setBlockNoRebuild(x % 16, y % 16, z % 16, block);
+            chunk.setBlockNoRebuild(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, z % Chunk.CHUNK_SIZE, block);
         } else {
             Chunk chunk2 = new Chunk(cX, cY, cZ);
             addChunk(chunk2);
-            chunk2.setBlockNoRebuild(x % 16, y % 16, z % 16, block);
+            chunk2.setBlockNoRebuild(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, z % Chunk.CHUNK_SIZE, block);
         }
     }
 
+    public void setInvisibleBlock(int x, int y, int z, Block block) {
+        // Get the coordinates of the chunk this block will be set in.
+        int cX = x / Chunk.CHUNK_SIZE;
+        int cY = y / Chunk.CHUNK_SIZE;
+        int cZ = z / Chunk.CHUNK_SIZE;
+
+        // Get this chunk.
+        Chunk chunk = getChunk(cX, cY, cZ);
+
+        // If the chunk exists, set the block.
+        if(chunk != null) {
+//            System.out.println("place");
+            chunk.setInvisibleBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, z % Chunk.CHUNK_SIZE, block);
+        } else {
+            Chunk chunk2 = new Chunk(cX, cY, cZ);
+            addChunk(chunk2);
+            chunk2.setInvisibleBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, z % Chunk.CHUNK_SIZE, block);
+        }
+    }
     /**
      * Add an entity to this planet's entity group.
      * @param sixEntity the entity to be added
@@ -155,7 +172,9 @@ public class Planet implements BlockWorld, SixWorld {
      */
     public Chunk getChunk(int x, int y, int z) {
         // Iterate through every chunk in this world:
-        for(Chunk chunk : chunks) {
+        for (int i = 0; i < chunks.size(); i++) {
+            Chunk chunk = chunks.get(i);
+
             // If chunk coordinates match the ones specified...
             if(chunk.getChunkX() == x
                     && chunk.getChunkY() == y
@@ -178,13 +197,13 @@ public class Planet implements BlockWorld, SixWorld {
      * @return the clock at these coordinates
      */
     public Block getBlock(int x, int y, int z) {
-        int cX = x / 16;
-        int cY = y / 16;
-        int cZ = z / 16;
+        int cX = x / Chunk.CHUNK_SIZE;
+        int cY = y / Chunk.CHUNK_SIZE;
+        int cZ = z / Chunk.CHUNK_SIZE;
 
-        int iCX = x - cX * 16;
-        int iCY = y - cY * 16;
-        int iCZ = z - cZ * 16;
+        int iCX = x - cX * Chunk.CHUNK_SIZE;
+        int iCY = y - cY * Chunk.CHUNK_SIZE;
+        int iCZ = z - cZ * Chunk.CHUNK_SIZE;
 
         Chunk chunk = getChunk(cX, cY, cZ);
 
@@ -203,25 +222,25 @@ public class Planet implements BlockWorld, SixWorld {
         // Add the chunk to the chunk set.
         chunks.add(chunk);
 
-        // Add chunk to the chunk access structure.
-        if(!chunkLevelMap.containsKey(chunk.getChunkY())) {
-            chunkLevelMap.put(chunk.getChunkY(), new ChunkLevel(chunk.getChunkY()));
-        }
-
-        ChunkLevel chunkLevel = chunkLevelMap.get(chunk.getChunkY());
-
-        ChunkRow chunkRow = chunkLevel.getChunkRow(chunk.getChunkX());
-
-        if(chunkRow == null) {
-            ChunkRow chunkRow1 = new ChunkRow(chunk.getChunkX());
-            chunkLevel.addChunkRow(chunkRow1);
-            chunkRow = chunkRow1;
-        }
-
-        chunkRow.addChunk(chunk.getChunkZ(), chunk);
-
-        // Set this chunk's planet to be this one.
-        chunk.setPlanet(this);
+//        // Add chunk to the chunk access structure.
+//        if(!chunkLevelMap.containsKey(chunk.getChunkY())) {
+//            chunkLevelMap.put(chunk.getChunkY(), new ChunkLevel(chunk.getChunkY()));
+//        }
+//
+//        ChunkLevel chunkLevel = chunkLevelMap.get(chunk.getChunkY());
+//
+//        ChunkRow chunkRow = chunkLevel.getChunkRow(chunk.getChunkX());
+//
+//        if(chunkRow == null) {
+//            ChunkRow chunkRow1 = new ChunkRow(chunk.getChunkX());
+//            chunkLevel.addChunkRow(chunkRow1);
+//            chunkRow = chunkRow1;
+//        }
+//
+//        chunkRow.addChunk(chunk.getChunkZ(), chunk);
+//
+//        // Set this chunk's planet to be this one.
+//        chunk.setPlanet(this);
     }
 
     /**
@@ -236,8 +255,13 @@ public class Planet implements BlockWorld, SixWorld {
      * Render the chunks in this world.
      */
     public void renderWorld() {
-        for(Chunk chunk : chunks) {
-            chunk.render();
+        try {
+            for (int i = 0; i < chunks.size(); i++) {
+                Chunk chunk = chunks.get(i);
+                chunk.render();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -245,8 +269,13 @@ public class Planet implements BlockWorld, SixWorld {
      * Rebuild the terrain geometry for this world.
      */
     public void rebuildRenderGeometry() {
-        for(Chunk chunk : chunks) {
-            chunk.rebuildRenderGeometry();
+        for (int i = 0; i < chunks.size(); i++) {
+            Chunk chunk = chunks.get(i);
+            try {
+                chunk.rebuildRenderGeometry();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -289,7 +318,7 @@ public class Planet implements BlockWorld, SixWorld {
         }
 
 //        System.out.println("World loc " + i + " " + i1 + " " + i2);
-        setBlockNoRebuild(i, i1, i2, block);
+        setInvisibleBlock(i, i1, i2, block);
 
     }
 

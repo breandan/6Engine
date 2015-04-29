@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
+Class-Path: lwjgl.jar lwjgl_util.jar ijen3D.jar SixAPI.jar DepthZ.jar
 Main-Class: com.daexsys.siximpl.SBC
 

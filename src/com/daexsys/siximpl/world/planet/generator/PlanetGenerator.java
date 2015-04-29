@@ -29,24 +29,24 @@ public class PlanetGenerator {
 
         chunk = new Chunk(x, y, z);
 
-        if(planetType == PlanetType.GRASSY) {
-            if(y == 0) {
-                for (int i = 0; i < 16; i++) {
-                    chunk.setXYArea(Block.DIRT, i);
-                }
-
-                chunk.setXYArea(Block.GRASS, 15);
-            } else if(y > 0) {
-                for (int i = 0; i < 16; i++) {
-                    chunk.setXYArea(new Air(), i);
-                }
-            }
-                else {
-                    for (int i = 0; i < 16; i++) {
-                        chunk.setXYArea(Block.STONE, i);
-                    }
-                }
-        }
+//        if(planetType == PlanetType.GRASSY) {
+//            if(y == 0) {
+//                for (int i = 0; i < Chunk.CHUNK_SIZE; i++) {
+//                    chunk.setXYArea(Block.DIRT, i);
+//                }
+//
+//                chunk.setXYArea(Block.GRASS, 15);
+//            } else if(y > 0) {
+//                for (int i = 0; i < 16; i++) {
+//                    chunk.setXYArea(new Air(), i);
+//                }
+//            }
+//                else {
+//                    for (int i = 0; i < 16; i++) {
+//                        chunk.setXYArea(Block.STONE, i);
+//                    }
+//                }
+//        }
 
         chunk.rebuildRenderGeometry();
         planet.addChunk(chunk);

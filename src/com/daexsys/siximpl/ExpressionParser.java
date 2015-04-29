@@ -1,11 +1,25 @@
 package com.daexsys.siximpl;
 
+import com.daexsys.ijen3D.IjWindow;
+import com.daexsys.ijen3D.Renderer;
 import com.daexsys.sixapi.SixCache;
+import com.daexsys.sixapi.SixSet;
 import com.daexsys.sixapi.SixWorld;
+import com.daexsys.siximpl.MengerGenerator;
 
 public class ExpressionParser {
-    public static SixCache parseAndPrint(SixWorld sixWorld, String block, String[] arguments, int x, int y, int z) {
-        SixCache sixCache = new SixCache();
+    /**
+     * Plots an expression into the block world.
+     * @param sixWorld the world
+     * @param block the block type
+     * @param arguments the arguments
+     * @param x the X coordinate of the origin of the plot
+     * @param y the Y coordinate of the origin of the plot
+     * @param z the Z coordinate of the origin of the plot
+     * @return a cache of the result
+     */
+    public static SixCache parseAndPrint(final SixWorld sixWorld, final String block, final String[] arguments, final int x, final int y, final int z) {
+        SixCache sixCache = new SixSet();
 
         if(arguments[0].equals("circle")) {
             double radius = Double.parseDouble(arguments[2]);
@@ -45,11 +59,10 @@ public class ExpressionParser {
             double length = Double.parseDouble(arguments[2]);
             double compression = Double.parseDouble(arguments[3]);
             double amplitude = Double.parseDouble(arguments[4]);
-            double shift = Double.parseDouble(arguments[5]);
 
             try {
                 for (double i = -length; i < length; i+=.01) {
-                    double angleInRadians = Math.toRadians((i + shift) * compression);
+                    double angleInRadians = Math.toRadians(i * compression);
 
                     sixCache.alterBlockAt(block,
                             x + new Double(i).intValue(),
@@ -65,11 +78,10 @@ public class ExpressionParser {
             double length = Double.parseDouble(arguments[2]);
             double compression = Double.parseDouble(arguments[3]);
             double amplitude = Double.parseDouble(arguments[4]);
-            double shift = Double.parseDouble(arguments[5]);
 
             try {
                 for (double i = -length; i < length; i+=.001) {
-                    double angleInRadians = Math.toRadians((i + shift)  * compression);
+                    double angleInRadians = Math.toRadians(i * compression);
 
                     sixCache.alterBlockAt(block,
                             x + new Double(i).intValue(),
@@ -81,6 +93,38 @@ public class ExpressionParser {
             }
 
         }
+
+        else if(arguments[0].equalsIgnoreCase("menger")) {
+            final int level = Integer.parseInt(arguments[2]);
+
+            Thread mengerThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    MengerGenerator mengerGenerator = new MengerGenerator(block, level, x, y, z);
+                    System.out.println("Placing in world...");
+                    mengerGenerator.getSixCache().apply(sixWorld, x, y, z);
+                    System.out.println("Menger generated");
+
+//                    System.exit(0);
+                    IjWindow.addProcess(new Renderer() {
+                        @Override
+                        public void render() {
+                            SBC.getUniverse().getPlanetAt(0, 0, 0).rebuildRenderGeometry();
+                            IjWindow.removeProcess(this);
+                        }
+                    });
+                }
+            });
+
+            mengerThread.setName("6Graph Menger Generation Thread");
+            mengerThread.start();
+        }
+//
+//        else if(arguments[0].equalsIgnoreCase("tree")) {
+//            TreeGenerator treeGenerator = new TreeGenerator(block, y, x, y, z);
+//            treeGenerator.getSixCache().apply(sixWorld);
+//            System.out.println("tree generated");
+//        }
 
         sixCache.apply(sixWorld);
         return sixCache;

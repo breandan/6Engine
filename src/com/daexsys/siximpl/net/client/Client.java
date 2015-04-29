@@ -38,32 +38,32 @@ public class Client {
                                 int block = 0;
                                 final Chunk chunk = new Chunk(x, y, z);
 
-                                while(block < 4096) {
+                                int total = Chunk.CHUNK_SIZE * Chunk.CHUNK_SIZE * Chunk.CHUNK_SIZE;
+                                int layer = Chunk.CHUNK_SIZE * Chunk.CHUNK_SIZE;
+
+                                while(block < total) {
                                     int amount = dataInputStream.readShort();
                                     int type = dataInputStream.readByte();
 
-                                    System.out.println(x + " " + y + " " + z + " " + amount + " " + type);
-
                                     int area = 0;
                                     while(area < amount) {
-                                        int inner = block % 256;
-                                        Block toPut = type == 0 ? Block.AIR : (type == 1 ? Block.GRASS : type == 2 ? Block.DIRT : Block.STONE);
-                                        chunk.setInvisibleBlock(inner % 16, block / 256, inner / 16, toPut);
+                                        int inner = block % layer;
+                                        Block toPut = type == 0 ? Block.AIR : (type == 1 ? Block.GRASS : type == 2 ? Block.DIRT : type == 3 ? Block.WOOD : Block.STONE);
+                                        chunk.setInvisibleBlock(inner % Chunk.CHUNK_SIZE, block / layer, inner / Chunk.CHUNK_SIZE, toPut);
                                         area++;
                                         block++;
                                     }
                                 }
 
-                                IjWindow.addRenderer(new Renderer() {
+                                SBC.getUniverse().getPlanetAt(0, 0, 0).addChunk(chunk);
+
+                                IjWindow.addProcess(new Renderer() {
                                     @Override
                                     public void render() {
-//                                        SBC.getUniverse().getPlanetAt(0,0,0)
-                                                chunk.rebuildRenderGeometry();
-                                        IjWindow.removeRenderer(this);
+                                        chunk.rebuildRenderGeometry();
+                                        IjWindow.removeProcess(this);
                                     }
                                 });
-
-                                SBC.getUniverse().getPlanetAt(0, 0, 0).addChunk(chunk);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
