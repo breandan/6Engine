@@ -7,6 +7,7 @@ import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.chunk.Chunk;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -15,11 +16,17 @@ import java.net.Socket;
  */
 public class Client {
     public static Socket socket;
+    public static DataOutputStream dataOutputStream;
     public Client() {}
+
+    public DataOutputStream getDataOutputStream() {
+        return dataOutputStream;
+    }
 
     public void connect(String ip, int port) {
         try {
             socket = new Socket(ip, port);
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
             new Thread(new Runnable() {
                 @Override
@@ -48,7 +55,16 @@ public class Client {
                                     int area = 0;
                                     while(area < amount) {
                                         int inner = block % layer;
-                                        Block toPut = type == 0 ? Block.AIR : (type == 1 ? Block.GRASS : type == 2 ? Block.DIRT : type == 3 ? Block.WOOD : Block.STONE);
+                                        Block toPut = type == 0 ? Block.AIR : (type == 1 ? Block.GRASS : type == 2 ? Block.DIRT : type == 3 ? Block.WOOD :
+                                                (type == 4 ? Block.LEAVES : (type == 5 ? Block.STONE : Block.SAND)));
+
+                                        if(type == 7) toPut = Block.SAND;
+                                        if(type == 8) toPut = Block.WATER;
+
+                                        if(type == 7) {
+                                            System.out.println(toPut);
+                                            System.exit(0);
+                                        }
                                         chunk.setInvisibleBlock(inner % Chunk.CHUNK_SIZE, block / layer, inner / Chunk.CHUNK_SIZE, toPut);
                                         area++;
                                         block++;

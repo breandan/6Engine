@@ -1,27 +1,19 @@
 package com.daexsys.siximpl;
 
-import com.avaje.ebean.Expression;
 import com.daexsys.depthz.TextureUtils;
 import com.daexsys.ijen3D.Camera;
 import com.daexsys.ijen3D.IjWindow;
 import com.daexsys.ijen3D.Renderer;
 import com.daexsys.ijen3D.entity.Entity;
 import com.daexsys.ijen3D.entity.EntityGroup;
-import com.daexsys.sixapi.SixCache;
-import com.daexsys.siximpl.entity.BPlacer;
 import com.daexsys.siximpl.entity.Player;
 import com.daexsys.siximpl.net.client.Client;
-import com.daexsys.siximpl.net.Server;
 import com.daexsys.siximpl.world.Universe;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.chunk.Chunk;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
 
@@ -30,9 +22,11 @@ import java.io.IOException;
 
 public class SBC {
     public static Player player;
-    private static Universe universe;
+    public static Universe universe;
     public static EntityGroup entityGroup;
     public static Client client;
+
+    public static boolean isClient = true;
 
     public static void main(String[] args) {
         try {
@@ -46,19 +40,12 @@ public class SBC {
 
         entityGroup = new EntityGroup();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Server.startServer();
-            }
-        }).start();
-
         client = new Client();
         client.connect("127.0.0.1", 2171);
-        init();
+        initClientGame();
     }
 
-    public static void init() {
+    public static void initClientGame() {
         IjWindow.create("6Engine", new DisplayMode(1600, 900));
 
         try {
@@ -75,21 +62,20 @@ public class SBC {
         player.setZ(115.2f);
         player.setYaw(135f);
 
-        IjWindow.setGLClearColor(135, 250, 250);
+        IjWindow.setGLClearColor(200, 250, 200);
 
         IjWindow.addRenderer(new Renderer() {
             @Override
             public void render() {
-                try {
-                    for (Chunk chunk : getPlayer().getPlanet().getChunks()) {
-                        chunk.render();    }
-                    } catch (Exception e) {
-                }
+            try {
+                for (Chunk chunk : getPlayer().getPlanet().getChunks()) {
+                    chunk.render();    }
+                } catch (Exception e) {
+            }
 
-                    for(Entity entity : SBC.entityGroup.getAllEntities()) {
-                        entity.render();
-                    }
-
+            for(Entity entity : SBC.entityGroup.getAllEntities()) {
+                entity.render();
+            }
             }
         });
 
@@ -125,7 +111,7 @@ public class SBC {
                     if(Mouse.isButtonDown(0)) {
 
                         if(System.currentTimeMillis() > lastTime + 150) {
-                            ExpressionParser.parseAndPrint(universe.getPlanetAt(0, 0, 0), "1", new String[]{"menger", "2", "4"},
+                            ExpressionParser.parseAndPrint(universe.getPlanetAt(0, 0, 0), "1", new String[]{"menger", "2", "3"},
                                     new Double(player.getPX()).intValue(), player.getPY(), player.getPZ() - 20);
 
 
@@ -160,7 +146,8 @@ public class SBC {
         logicThread.start();
 
         Mouse.setGrabbed(true);
-        IjWindow.setGLClearColor(0.2f,0.4f,0.8f);
+//        IjWindow.setGLClearColor(0.4f,0.6f,0.8f);
+        IjWindow.setGLClearColor(0.45f,0.65f,1f);
 
         IjWindow.beginRendering();
     }

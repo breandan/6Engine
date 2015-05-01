@@ -286,31 +286,31 @@ public class Chunk {
                     boolean render = true;
 
                     if (pitchPlayer < 20) {
-                        if (anglePlayer > 45 && anglePlayer < 135) {
-                            if (getChunkX() < player.getChunkX()) {
-                                render = false;
-                            }
-                        }
-
-                        if (anglePlayer > 225 && anglePlayer < 315) {
-                            if (getChunkX() > player.getChunkX()) {
-                                render = false;
-                            }
-                        }
-
-                        // 90 270
-                        // 270 90
-                        if (anglePlayer > 135 && anglePlayer < 225) {
-                            if (getChunkZ() < player.getChunkZ()) {
-                                render = false;
-                            }
-                        }
+//                        if (anglePlayer > 45 && anglePlayer < 135) {
+//                            if (getChunkX() < player.getChunkX()) {
+//                                render = false;
+//                            }
+//                        }
 //
-                        if (anglePlayer > 315 && anglePlayer < 45) {
-                            if (getChunkZ() > player.getChunkZ()) {
-                                render = false;
-                            }
-                        }
+//                        if (anglePlayer > 225 && anglePlayer < 315) {
+//                            if (getChunkX() > player.getChunkX()) {
+//                                render = false;
+//                            }
+//                        }
+//
+//                        // 90 270
+//                        // 270 90
+//                        if (anglePlayer > 135 && anglePlayer < 225) {
+//                            if (getChunkZ() < player.getChunkZ()) {
+//                                render = false;
+//                            }
+//                        }
+////
+//                        if (anglePlayer > 315 && anglePlayer < 45) {
+//                            if (getChunkZ() > player.getChunkZ()) {
+//                                render = false;
+//                            }
+//                        }
                     }
 
                     if (render) {

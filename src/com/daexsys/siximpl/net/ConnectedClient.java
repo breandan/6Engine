@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class ConnectedClient implements Runnable {
     private Socket socket;
-    private Planet planet;
+    private static Planet planet;
 
     public ConnectedClient(Socket socket) {
         this.socket = socket;
@@ -24,7 +24,10 @@ public class ConnectedClient implements Runnable {
 
     @Override
     public void run() {
-        planet = new Planet(new Random().nextLong(), PlanetType.GRASSY);
+        if(planet == null) {
+            planet = new Planet(new Random().nextLong(), PlanetType.GRASSY);
+        }
+
         sendChunks();
 
         DataInputStream dataInputStream = null;
@@ -46,6 +49,18 @@ public class ConnectedClient implements Runnable {
             try {
                 byte packetNum = dataInputStream.readByte();
 
+                if(packetNum == 2) {
+                    int id = dataInputStream.readInt();
+                    Block block = null;
+
+                    if(id == 5) block = Block.STONE;
+
+                    int x = dataInputStream.readInt();
+                    int y = dataInputStream.readInt();
+                    int z = dataInputStream.readInt();
+                    planet.setBlock(x, y, z, block);
+                }
+
                 if (packetNum == 5) {
                     int x = dataInputStream.readInt();
                     int y = dataInputStream.readInt() * -1;
@@ -56,11 +71,17 @@ public class ConnectedClient implements Runnable {
                     for (int i = x - range; i < x + range; i++) {
                         for (int j = y - range; j < y + range; j++) {
                             for (int k = z - range; k < z + range; k++) {
-                                if(i > 0 && j > -1 && k > 0) {
+                                if(i > 0 && j > -3 && k > 0) {
                                     if (planet.getChunk(i, j, k) == null) {
-                                        Chunk chunk = generateChunk(i, j, k);
+                                        Chunk chunk = planet.getChunk(i, j, k);
+
+                                        if(chunk == null) {
+                                            System.out.println("Generating " + i + " " + j + " " + k);
+                                            chunk = generateChunk(i, j, k);
+                                            planet.addChunk(chunk);
+                                        }
+
                                         sendChunk(dataOutputStream, chunk);
-                                        planet.addChunk(chunk);
                                     }
                                 }
 
@@ -187,7 +208,13 @@ public class ConnectedClient implements Runnable {
                         }
                         else if (i+(y*Chunk.CHUNK_SIZE) == height) {
 //                            System.out.println("setting: " + i + "grass");
-                            chunk.setInvisibleBlock(bx, i, bz, Block.GRASS);
+                            if(i + (y* Chunk.CHUNK_SIZE) < 18) {
+                                chunk.setInvisibleBlock(bx, i, bz, Block.SAND);
+                            } else if(i + (y* Chunk.CHUNK_SIZE) < 15) {
+                                chunk.setInvisibleBlock(bx, i, bz, Block.WATER);
+                            } else {
+                                chunk.setInvisibleBlock(bx, i, bz, Block.GRASS);
+                            }
                         }
                         else if(i+(y*Chunk.CHUNK_SIZE) < height) {
                             chunk.setInvisibleBlock(bx, i, bz, Block.STONE);
@@ -220,8 +247,8 @@ public class ConnectedClient implements Runnable {
 //        return 3;
         //25
         OctaveGenerator octaveGenerator = new SimplexOctaveGenerator(seed, 3);
-        octaveGenerator.setScale(.02);
-        return new Double(octaveGenerator.noise(x, z, 0.5, 0.5) * 15).intValue() + 21;
+        octaveGenerator.setScale(.009);
+        return new Double(octaveGenerator.noise(x, z, 0.0001, 0.0001) * 10).intValue() + 21;
 //        return new Random().nextInt(2);
     }
 }

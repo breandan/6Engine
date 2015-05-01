@@ -4,12 +4,14 @@ import com.daexsys.sixapi.SixWorld;
 import com.daexsys.ijen3D.entity.EntityGroup;
 import com.daexsys.siximpl.SBC;
 import com.daexsys.siximpl.entity.SixEntity;
+import com.daexsys.siximpl.net.client.Client;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.chunk.Chunk;
 import com.daexsys.siximpl.world.chunk.ChunkLevel;
 import com.daexsys.siximpl.world.chunk.ChunkRow;
 import com.daexsys.siximpl.world.planet.generator.PlanetGenerator;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -82,6 +84,20 @@ public class Planet implements BlockWorld, SixWorld {
             Chunk chunk2 = new Chunk(cX, cY, cZ);
             addChunk(chunk2);
             chunk2.setBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, z % Chunk.CHUNK_SIZE, block);
+        }
+
+        if(SBC.isClient) {
+            try {
+                Client.dataOutputStream.writeByte(2);
+                Client.dataOutputStream.writeInt(block.getID());
+                Client.dataOutputStream.writeInt(x);
+                Client.dataOutputStream.writeInt(y);
+                Client.dataOutputStream.writeInt(z);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("placing " + block.getID() + " at " + x + " " + y + " " + z);
         }
     }
 
@@ -171,18 +187,22 @@ public class Planet implements BlockWorld, SixWorld {
      * @return the chunk at these coordinates
      */
     public Chunk getChunk(int x, int y, int z) {
-        // Iterate through every chunk in this world:
-        for (int i = 0; i < chunks.size(); i++) {
-            Chunk chunk = chunks.get(i);
+        try {
+            // Iterate through every chunk in this world:
+            for (int i = 0; i < chunks.size(); i++) {
+                Chunk chunk = chunks.get(i);
 
-            // If chunk coordinates match the ones specified...
-            if(chunk.getChunkX() == x
-                    && chunk.getChunkY() == y
-                    && chunk.getChunkZ() == z
-                    ) {
-                // Return that chunk.
-                return chunk;
+                // If chunk coordinates match the ones specified...
+                if (chunk.getChunkX() == x
+                        && chunk.getChunkY() == y
+                        && chunk.getChunkZ() == z
+                        ) {
+                    // Return that chunk.
+                    return chunk;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // Otherwise return null.

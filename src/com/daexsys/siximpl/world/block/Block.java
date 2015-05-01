@@ -7,23 +7,26 @@ import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 public class Block {
     public static final Block AIR = new Air();
-    public static final Block DIRT = new Block(2,3);    //1
-    public static final Block GRASS = new Block(1,1,2);  //2,1
-    public static final Block STONE = new Block(5,4,4);   //3
-    public static final Block WOOD = new Block(3,5,5);    //4
-    public static final Block LEAVES = new Block(6,7,7);
+    public static final Block GRASS = new Block(1,0,1);
+    public static final Block DIRT = new Block(2,2);
+    public static final Block STONE = new Block(5,3);
+    public static final Block WOOD = new Block(3,4);
+    public static final Block LEAVES = new Block(4,6);
+    public static final Block SAND = new Block(6,7);
+    public static final Block WATER = new Block(7,8);
 
     // Block SIZE in units
     public static final float SIZE = 0.8f;
     public static float shift = .25f;
 
     private byte id = 0;
-    private int textureID = 1;
-    private int sideTextureId = 1;
+    private int textureID = -1;
+    private int sideTextureId = -1;
 
     public Block(int id, int textureID) {
         this.id = (byte) id;
         this.textureID = textureID;
+        this.sideTextureId = textureID;
     }
 
     public Block(int id, int textureID, int sideTextureId) {
@@ -40,21 +43,31 @@ public class Block {
         return textureID;
     }
 
-    public float getTexX(int texture) {
-//        return .25f * (texture % 4);
-//        return (texture + 0.5f) / 64;
-
-        float x = (texture % 4) + 1;
-        return .25f * x - .25f;
+    public static float getTexX(int texture) {
+        float u = texture % 4;
+        return u * .25f + .25f;
 
     }
 
-    public float getTextY(int texture) {
-//
-//        return .25f * ((texture / 4) + 1);
-//        return (texture + 0.5f) / 64;
-        float y = (texture / 4) + 1;
-        return .25f * y;
+    public static float getTexY(int texture) {
+        float v = texture / 4;
+        return v * .25f + .25f;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("x " + getTexX(0));
+        System.out.println(getTexY(0));
+        System.out.println("x " + getTexX(1));
+        System.out.println(getTexY(1));
+        System.out.println("x " + getTexX(2));
+        System.out.println(getTexY(2));
+        System.out.println("x " + getTexX(3));
+        System.out.println(getTexY(3));
+        System.out.println("x " + getTexX(4));
+        System.out.println(getTexY(4));
+        System.out.println("x " + getTexX(5));
+        System.out.println(getTexY(5));
+
     }
 
     public int getSideTexture() {
@@ -96,7 +109,7 @@ public class Block {
                 glBegin(GL_QUADS);
                 {
                     float xt = getTexX(texid);
-                    float yt = getTextY(texid);
+                    float yt = getTexY(texid);
 
                     glTexCoord2f(xt - shift, yt-shift);
                     glVertex3f(xSIZE, floor, -zSIZE);
@@ -114,7 +127,7 @@ public class Block {
                 glBegin(GL_QUADS);
                 {
                     float xt = getTexX(texid);
-                    float yt = getTextY(texid);
+                    float yt = getTexY(texid);
 
                     glTexCoord2f(xt - shift, yt-shift);
                     glVertex3f(xSIZE, ceiling, -zSIZE);
@@ -135,7 +148,7 @@ public class Block {
                 glBegin(GL_QUADS);
                 {
                     float xt = getTexX(texid);
-                    float yt = getTextY(texid);
+                    float yt = getTexY(texid);
 
                     glTexCoord2f(xt - shift, yt-shift);
                     glVertex3f(-xSIZE, ceiling, -zSIZE);
@@ -153,7 +166,7 @@ public class Block {
                 glBegin(GL_QUADS);
                 {
                     float xt = getTexX(texid);
-                    float yt = getTextY(texid);
+                    float yt = getTexY(texid);
 
                     glTexCoord2f(xt - shift, yt - shift);
                     glVertex3f(xSIZE, ceiling, -zSIZE);
@@ -171,7 +184,7 @@ public class Block {
                 glBegin(GL_QUADS);
                 {
                     float xt = getTexX(texid);
-                    float yt = getTextY(texid);
+                    float yt = getTexY(texid);
 
                     glTexCoord2f(xt - shift, yt-shift);
                     glVertex3f(-xSIZE, ceiling, -zSIZE);
@@ -189,7 +202,7 @@ public class Block {
                 glBegin(GL_QUADS);
                 {
                     float xt = getTexX(texid);
-                    float yt = getTextY(texid);
+                    float yt = getTexY(texid);
 
                     glTexCoord2f(xt - shift, yt-shift);
                     glVertex3f(-xSIZE, ceiling, zSIZE);
@@ -239,7 +252,7 @@ public class Block {
 
         if (renderBottom) {
             float xt = getTexX(texid);
-            float yt = getTextY(texid);
+            float yt = getTexY(texid);
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + xSIZE, floor, zp + -zSIZE);
@@ -253,7 +266,7 @@ public class Block {
 
         if (renderTop) {
             float xt = getTexX(texid);
-            float yt = getTextY(texid);
+            float yt = getTexY(texid);
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + xSIZE, ceiling, zp + -zSIZE);
@@ -269,7 +282,7 @@ public class Block {
 
         if (renderLeft) {
             float xt = getTexX(texid);
-            float yt = getTextY(texid);
+            float yt = getTexY(texid);
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + -xSIZE, ceiling, zp + -zSIZE);
@@ -283,7 +296,7 @@ public class Block {
 
         if (renderRight) {
             float xt = getTexX(texid);
-            float yt = getTextY(texid);
+            float yt = getTexY(texid);
 
             glTexCoord2f(xt - shift, yt - shift);
             glVertex3f(xp + xSIZE, ceiling, zp + -zSIZE);
@@ -297,7 +310,7 @@ public class Block {
 
         if (renderFront) {
             float xt = getTexX(texid);
-            float yt = getTextY(texid);
+            float yt = getTexY(texid);
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + -xSIZE, ceiling, zp + -zSIZE);
@@ -311,7 +324,7 @@ public class Block {
 
         if (renderBack) {
             float xt = getTexX(texid);
-            float yt = getTextY(texid);
+            float yt = getTexY(texid);
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + -xSIZE, ceiling, zp + zSIZE);

@@ -128,8 +128,6 @@ public class Player extends SixEntity {
             lastCheckTime = System.currentTimeMillis();
             generateAroundPlayer();
         }
-        // TODO: Controls
-        // TODO: Jumping / gravity
     }
 
     public boolean collides(double x, int y, double z) {
