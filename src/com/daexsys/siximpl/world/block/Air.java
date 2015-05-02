@@ -8,5 +8,5 @@ public class Air extends Block {
     }
 
     @Override
-    public void rebuild(Chunk chunk, int x, int y, int z) {}
+    public void build(Chunk chunk, int x, int y, int z) {}
 }

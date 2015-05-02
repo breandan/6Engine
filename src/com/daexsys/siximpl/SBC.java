@@ -29,11 +29,11 @@ public class SBC {
     public static boolean isClient = true;
 
     public static void main(String[] args) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         universe = new Universe();
         player = new Player(getUniverse().getPlanetAt(0, 0, 0), 0,0,0);
@@ -41,7 +41,7 @@ public class SBC {
         entityGroup = new EntityGroup();
 
         client = new Client();
-        client.connect("127.0.0.1", 2171);
+        client.connect("127.0.0.1", 2718);
         initClientGame();
     }
 
@@ -69,8 +69,11 @@ public class SBC {
             public void render() {
             try {
                 for (Chunk chunk : getPlayer().getPlanet().getChunks()) {
-                    chunk.render();    }
+                    chunk.render();
+                }
+
                 } catch (Exception e) {
+                e.printStackTrace();
             }
 
             for(Entity entity : SBC.entityGroup.getAllEntities()) {
@@ -141,10 +144,6 @@ public class SBC {
 //                        }
                     }
 
-//                        player.setY(-32);
-//                        player.setX(115.2f);
-//                        player.setZ(115.2f);
-
                     lastTick = System.currentTimeMillis();
 
                     try {
@@ -159,7 +158,7 @@ public class SBC {
         logicThread.start();
 
         Mouse.setGrabbed(true);
-//        IjWindow.setGLClearColor(0.4f,0.6f,0.8f);
+
         IjWindow.setGLClearColor(0.45f,0.65f,1f);
 
         IjWindow.beginRendering();

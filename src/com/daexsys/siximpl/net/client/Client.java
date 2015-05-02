@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- * The network client
+ * The network client thread
  */
 public class Client {
     public static Socket socket;

@@ -10,7 +10,6 @@ import com.daexsys.siximpl.world.planet.Planet;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -229,7 +228,7 @@ public class Chunk {
                                 Block block = blocks[i][j][k];
 
                                 try {
-                                    block.rebuild(theChunk, i, j, k);
+                                    block.build(theChunk, i, j, k);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -253,77 +252,77 @@ public class Chunk {
 
     public void render() {
         try {
-        if(empty) return;
-        if(rebuilding) return;
+            if(empty) return;
+            if(rebuilding) return;
 
-        Player player = SBC.getPlayer();
+            Player player = SBC.getPlayer();
 
-        int cX = player.getChunkX();
-        int cY = player.getChunkY() * -1;
-        int cZ = player.getChunkZ();
+            int cX = player.getChunkX();
+            int cY = player.getChunkY() * -1;
+            int cZ = player.getChunkZ();
 
-        int viewDistance = 10;
+            int viewDistance = 10;
 
-        for(BlockCoord blockCoord : tempBlocks) {
-            Block block = getBlock(blockCoord.x, blockCoord.y, blockCoord.z);
-            try {
-                block.renderTempBlock(this, blockCoord.x, blockCoord.y, blockCoord.z);
-            } catch (Exception e) {
-                e.printStackTrace();
+            for(BlockCoord blockCoord : tempBlocks) {
+                Block block = getBlock(blockCoord.x, blockCoord.y, blockCoord.z);
+                try {
+                    block.renderTempBlock(this, blockCoord.x, blockCoord.y, blockCoord.z);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
-        if(cX > getChunkX() - viewDistance && cX < getChunkX() + viewDistance) {
-            if (cY > getChunkY() - viewDistance && cY < getChunkY() + viewDistance) {
-                if (cZ > getChunkZ() - viewDistance && cZ < getChunkZ() + viewDistance) {
-                    double anglePlayer = player.getYaw() % 360;
-                    double pitchPlayer = player.getPitch() % 360;
+            if(cX > getChunkX() - viewDistance && cX < getChunkX() + viewDistance) {
+                if (cY > getChunkY() - viewDistance && cY < getChunkY() + viewDistance) {
+                    if (cZ > getChunkZ() - viewDistance && cZ < getChunkZ() + viewDistance) {
+                        double anglePlayer = player.getYaw() % 360;
+                        double pitchPlayer = player.getPitch() % 360;
 
-                    if (anglePlayer < 0) {
-                        anglePlayer = 360 + anglePlayer;
-                    }
+                        if (anglePlayer < 0) {
+                            anglePlayer = 360 + anglePlayer;
+                        }
 
-                    boolean render = true;
+                        boolean render = true;
 
-                    if (pitchPlayer < 20) {
-//                        if (anglePlayer > 45 && anglePlayer < 135) {
-//                            if (getChunkX() < player.getChunkX()) {
-//                                render = false;
-//                            }
-//                        }
-//
-//                        if (anglePlayer > 225 && anglePlayer < 315) {
-//                            if (getChunkX() > player.getChunkX()) {
-//                                render = false;
-//                            }
-//                        }
-//
-//                        // 90 270
-//                        // 270 90
-//                        if (anglePlayer > 135 && anglePlayer < 225) {
-//                            if (getChunkZ() < player.getChunkZ()) {
-//                                render = false;
-//                            }
-//                        }
-////
-//                        if (anglePlayer > 315 && anglePlayer < 45) {
-//                            if (getChunkZ() > player.getChunkZ()) {
-//                                render = false;
-//                            }
-//                        }
-                    }
+                        if (pitchPlayer < 20) {
+    //                        if (anglePlayer > 45 && anglePlayer < 135) {
+    //                            if (getChunkX() < player.getChunkX()) {
+    //                                render = false;
+    //                            }
+    //                        }
+    //
+    //                        if (anglePlayer > 225 && anglePlayer < 315) {
+    //                            if (getChunkX() > player.getChunkX()) {
+    //                                render = false;
+    //                            }
+    //                        }
+    //
+    //                        // 90 270
+    //                        // 270 90
+    //                        if (anglePlayer > 135 && anglePlayer < 225) {
+    //                            if (getChunkZ() < player.getChunkZ()) {
+    //                                render = false;
+    //                            }
+    //                        }
+    ////
+    //                        if (anglePlayer > 315 && anglePlayer < 45) {
+    //                            if (getChunkZ() > player.getChunkZ()) {
+    //                                render = false;
+    //                            }
+    //                        }
+                        }
 
-                    if (render) {
-                        try {
-                            // Render built chunk displaylist
-                            GL11.glCallList(displayListNumber);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (render) {
+                            try {
+                                // Render built chunk displaylist
+                                GL11.glCallList(displayListNumber);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
             }
-        }
         } catch (Exception e) {
             e.printStackTrace();
         }

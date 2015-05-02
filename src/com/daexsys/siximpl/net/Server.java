@@ -27,7 +27,11 @@ public class Server {
         spawnPlanet = planet;
 
         try {
-            ServerSocket serverSocket = new ServerSocket(2171);
+            ServerSocket serverSocket = new ServerSocket(2718);
+
+            Thread thread = new Thread();
+            thread.setName("6Engine Server Scheduler Operations");
+            thread.start();
 
             while(true) {
                 Socket socket = serverSocket.accept();
