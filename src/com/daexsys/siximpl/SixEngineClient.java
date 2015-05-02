@@ -137,24 +137,33 @@ public class SixEngineClient {
 
                     // Block destruction test. Doesn't really work.
                     if(Mouse.isButtonDown(0)) {
-                        if(System.currentTimeMillis() > lastTime + 150) {
-                            Block cB = Block.AIR;
 
-                            for (double i = 0; i < 40; i+=0.2) {
-                                int x = (int) (player.getPX() + i * new Float(Math.cos(Math.toRadians(player.getYaw() + 90))));
-                                int y = (int) (player.getPY() + i * new Float(Math.cos(Math.toRadians(player.getPitch() + 90))));
-                                int z = (int) (player.getPZ() + i * new Float(Math.sin(Math.toRadians(player.getYaw() + 90))));
-
-                                Block selectedBlock = getUniverse().getPlanetAt(0,0,0).getBlock(x, y, z);
-
-                                if(selectedBlock != Block.AIR) {
-                                    getUniverse().getPlanetAt(0,0,0).setBlock(x, y, z, Block.AIR);
-                                    i = 31;
-                                }
+                            ExpressionParser.parseAndPrint(universe.getPlanetAt(0, 0, 0), "1", new String[]{"menger", "2", "5"},
+                                    new Double(player.getPX()).intValue(), player.getPY(), player.getPZ() - 20);
+//
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
 
+//                        if(System.currentTimeMillis() > lastTime + 150) {
+//                            Block cB = Block.AIR;
+//
+//                            for (double i = 0; i < 40; i+=0.2) {
+//                                int x = (int) (player.getPX() + i * new Float(Math.cos(Math.toRadians(player.getYaw() + 90))));
+//                                int y = (int) (player.getPY() + i * new Float(Math.cos(Math.toRadians(player.getPitch() + 90))));
+//                                int z = (int) (player.getPZ() + i * new Float(Math.sin(Math.toRadians(player.getYaw() + 90))));
+//
+//                                Block selectedBlock = getUniverse().getPlanetAt(0,0,0).getBlock(x, y, z);
+//
+//                                if(selectedBlock != Block.AIR) {
+//                                    getUniverse().getPlanetAt(0,0,0).setBlock(x, y, z, Block.AIR);
+//                                    i = 31;
+//                                }
+//                            }
+
                             lastTime = System.currentTimeMillis();
-                        }
                     }
 
                     // If right mouse button is down, place stone block at player's location and send a block placement
@@ -205,15 +214,6 @@ public class SixEngineClient {
     }
 
 
-
-//                            ExpressionParser.parseAndPrint(universe.getPlanetAt(0, 0, 0), "1", new String[]{"menger", "2", "3"},
-//                                    new Double(player.getPX()).intValue(), player.getPY(), player.getPZ() - 20);
-////
-//                            try {
-//                                Thread.sleep(1000);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
 //
 //                            shift+= Math.PI / 2;
 }
