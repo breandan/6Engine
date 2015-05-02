@@ -40,15 +40,15 @@ public class BPlacer extends SixEntity {
     }
 
     public int getPX() {
-        return new Double(getX() / 1.6).intValue();
+        return new Double(getX() / Block.BLOCK_SIZE * 2).intValue();
     }
 
     public int getPY() {
-        return new Double(getY() / 1.6).intValue();
+        return new Double(getY() /Block.BLOCK_SIZE * 2).intValue();
     }
 
     public int getPZ() {
-        return new Double(getZ() / 1.6).intValue();
+        return new Double(getZ() / Block.BLOCK_SIZE * 2).intValue();
     }
 
     @Override

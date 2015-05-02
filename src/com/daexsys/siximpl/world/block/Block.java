@@ -16,8 +16,8 @@ public class Block {
     public static final Block SAND = new Block(6,7);
     public static final Block WATER = new Block(7,8);
 
-    // Block size in units
-    public static final float SIZE = 0.8f;
+    // Block size in GL units
+    public static final float BLOCK_SIZE = 1f;
 
     // Texture shift
     public static float shift = .25f;
@@ -114,23 +114,23 @@ public class Block {
         boolean renderBack = chunk.isAir(x, y, z + 1);
 
         // Determine the location of the chunk within the rendering world
-        final float xO = chunk.getChunkX() * 32 * SIZE;
-        final float yO = chunk.getChunkY() * 32 * SIZE;
-        final float zO = chunk.getChunkZ() * 32 * SIZE;
+        final float xO = chunk.getChunkX() * (Chunk.CHUNK_SIZE * 2) * BLOCK_SIZE;
+        final float yO = chunk.getChunkY() * (Chunk.CHUNK_SIZE * 2) * BLOCK_SIZE;
+        final float zO = chunk.getChunkZ() * (Chunk.CHUNK_SIZE * 2) * BLOCK_SIZE;
 
         // Set the dimensions of blocks
-        final float xSIZE = SIZE;
-        final float zSIZE = SIZE;
-        float floor = SIZE * 2;
+        final float xSIZE = BLOCK_SIZE;
+        final float zSIZE = BLOCK_SIZE;
+        float floor = BLOCK_SIZE * 2;
         float ceiling = 0;
 
         // Get the texture id
         int texid = getTextureID();
 //
         // Move to location of block
-        float xp = xO + (x * SIZE * 2);
-        float yp = yO + (y * SIZE * 2);
-        float zp = zO + (z * SIZE * 2);
+        float xp = xO + (x * BLOCK_SIZE * 2);
+        float yp = yO + (y * BLOCK_SIZE * 2);
+        float zp = zO + (z * BLOCK_SIZE * 2);
 
         floor += yp;
         ceiling += yp;
@@ -140,12 +140,15 @@ public class Block {
             float xt = getTexX(texid);
             float yt = getTexY(texid);
 
-            glTexCoord2f(xt - shift, yt-shift);
+            glTexCoord2f(xt - shift, yt - shift);
             glVertex3f(xp + xSIZE, floor, zp + -zSIZE);
-            glTexCoord2f(xt, yt-shift);
+
+            glTexCoord2f(xt, yt - shift);
             glVertex3f(xp + xSIZE, floor, zp + zSIZE);
+
             glTexCoord2f(xt, yt);
             glVertex3f(xp + -xSIZE, floor, zp + zSIZE);
+
             glTexCoord2f(xt - shift, yt);
             glVertex3f(xp + -xSIZE, floor, zp + -zSIZE);
         }
@@ -157,10 +160,13 @@ public class Block {
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + xSIZE, ceiling, zp + -zSIZE);
+
             glTexCoord2f(xt, yt-shift);
             glVertex3f(xp + xSIZE, ceiling, zp + zSIZE);
+
             glTexCoord2f(xt, yt);
             glVertex3f(xp + -xSIZE, ceiling, zp + zSIZE);
+
             glTexCoord2f(xt - shift, yt);
             glVertex3f(xp + -xSIZE, ceiling, zp + -zSIZE);
         }
@@ -174,10 +180,13 @@ public class Block {
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + -xSIZE, ceiling, zp + -zSIZE);
+
             glTexCoord2f(xt, yt-shift);
             glVertex3f(xp + -xSIZE, ceiling, zp + zSIZE);
+
             glTexCoord2f(xt, yt);
             glVertex3f(xp + -xSIZE, floor, zp + zSIZE);
+
             glTexCoord2f(xt - shift, yt);
             glVertex3f(xp + -xSIZE, floor, zp + -zSIZE);
         }
@@ -189,10 +198,13 @@ public class Block {
 
             glTexCoord2f(xt - shift, yt - shift);
             glVertex3f(xp + xSIZE, ceiling, zp + -zSIZE);
+
             glTexCoord2f(xt, yt - shift);
             glVertex3f(xp + xSIZE, ceiling, zp + zSIZE);
+
             glTexCoord2f(xt, yt);
             glVertex3f(xp + xSIZE, floor, zp + zSIZE);
+
             glTexCoord2f(xt - shift, yt);
             glVertex3f(xp + xSIZE, floor, zp + -zSIZE);
         }
@@ -204,10 +216,13 @@ public class Block {
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + -xSIZE, ceiling, zp + -zSIZE);
+
             glTexCoord2f(xt, yt - shift);
             glVertex3f(xp + xSIZE, ceiling, zp + -zSIZE);
+
             glTexCoord2f(xt, yt);
             glVertex3f(xp + xSIZE, floor, zp + -zSIZE);
+
             glTexCoord2f(xt - shift, yt);
             glVertex3f(xp + -xSIZE, floor, zp + -zSIZE);
         }
@@ -219,10 +234,13 @@ public class Block {
 
             glTexCoord2f(xt - shift, yt-shift);
             glVertex3f(xp + -xSIZE, ceiling, zp + zSIZE);
+
             glTexCoord2f(xt, yt - shift);
             glVertex3f(xp + xSIZE, ceiling, zp + zSIZE);
+
             glTexCoord2f(xt, yt);
             glVertex3f(xp + xSIZE, floor, zp + zSIZE);
+
             glTexCoord2f(xt - shift, yt);
             glVertex3f(xp + -xSIZE, floor, zp + zSIZE);
         }
@@ -256,13 +274,13 @@ public class Block {
         boolean renderFront = true;
         boolean renderBack = true;
 
-        final float xO = chunk.getChunkX() * 32 * SIZE;
-        final float yO = chunk.getChunkY() * 32 * SIZE;
-        final float zO = chunk.getChunkZ() * 32 * SIZE;
+        final float xO = chunk.getChunkX() * 32 * BLOCK_SIZE;
+        final float yO = chunk.getChunkY() * 32 * BLOCK_SIZE;
+        final float zO = chunk.getChunkZ() * 32 * BLOCK_SIZE;
 
-        final float xSIZE = SIZE;
-        final float zSIZE = SIZE;
-        final float floor = SIZE * 2;
+        final float xSIZE = BLOCK_SIZE;
+        final float zSIZE = BLOCK_SIZE;
+        final float floor = BLOCK_SIZE * 2;
         final float ceiling = 0;
 
         glBindTexture(GL_TEXTURE_2D, 5);
@@ -272,7 +290,7 @@ public class Block {
         glPushMatrix();
         {
             // Move to location of block
-            glTranslatef(xO + (x * SIZE * 2), yO + (y * SIZE * 2), zO + (z * SIZE * 2));
+            glTranslatef(xO + (x * BLOCK_SIZE * 2), yO + (y * BLOCK_SIZE * 2), zO + (z * BLOCK_SIZE * 2));
 
             if (renderBottom) {
                 glBegin(GL_QUADS);
