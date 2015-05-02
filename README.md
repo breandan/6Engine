@@ -5,7 +5,7 @@
 It's an alternative to Minecraft with the following goals in mind:
 - Modding/plugin API first. Performance right after that.
 - Servers should have as much control over clients as possible.
-- World made of chunks, for 'infinite' worlds that expand in the vertical direction as much as the horizontal.
+- World made of cubic chunks, for 'infinite' worlds that expand in the vertical direction as much as the horizontal.
 
 And all these things will be supported from the beginning. Better yet, it will be free. Free software.
 
