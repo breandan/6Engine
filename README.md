@@ -1,4 +1,6 @@
-6Engine is an open-sourced, developer focused block engine.
+## 6Engine ##
+
+6Engine is an open-source, developer focused block engine.
 
 It's an alternative to Minecraft with the following goals in mind:
 - API first. Performance right after that.
