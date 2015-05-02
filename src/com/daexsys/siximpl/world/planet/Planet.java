@@ -85,20 +85,6 @@ public class Planet implements BlockWorld, SixWorld {
             addChunk(chunk2);
             chunk2.setBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, z % Chunk.CHUNK_SIZE, block);
         }
-
-        if(SBC.isClient) {
-            try {
-                Client.dataOutputStream.writeByte(2);
-                Client.dataOutputStream.writeInt(block.getID());
-                Client.dataOutputStream.writeInt(x);
-                Client.dataOutputStream.writeInt(y);
-                Client.dataOutputStream.writeInt(z);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("placing " + block.getID() + " at " + x + " " + y + " " + z);
-        }
     }
 
     public void clearTempBlocks() {

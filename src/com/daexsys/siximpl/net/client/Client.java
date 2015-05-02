@@ -5,6 +5,7 @@ import com.daexsys.ijen3D.Renderer;
 import com.daexsys.siximpl.SBC;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.chunk.Chunk;
+import org.lwjgl.Sys;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -28,15 +29,17 @@ public class Client {
             socket = new Socket(ip, port);
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-            new Thread(new Runnable() {
+            Thread clientToServer = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     while(true) {
                         try {
                             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
+                            byte packetNum = dataInputStream.readByte();
+
                             // Chunk data
-                            if(dataInputStream.readByte() == 0) {
+                            if(packetNum == 0) {
                                 // Chunk coords
                                 int x = dataInputStream.readInt();
                                 int y = dataInputStream.readInt();
@@ -81,14 +84,32 @@ public class Client {
                                     }
                                 });
                             }
+
+                            else if(packetNum == 2) {
+                                int id = dataInputStream.readInt();
+                                int x = dataInputStream.readInt();
+                                int y = dataInputStream.readInt();
+                                int z = dataInputStream.readInt();
+
+                                System.out.println("Block placement occured at: " + x + " " + y + " " + z);
+
+                                SBC.getUniverse().getPlanetAt(0, 0, 0).setBlock(x, y, z, Block.STONE);
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                 }
-            }).start();
+            });
+
+            clientToServer.setName("6Engine Client Network Thread");
+            clientToServer.start();
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Failed to find server!");
+
+            // Close program because server was not found
+            System.exit(0);
         }
     }
 

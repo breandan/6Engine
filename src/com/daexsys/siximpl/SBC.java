@@ -106,7 +106,7 @@ public class SBC {
                     // Run player logic.
                     player.logic(delta);
 
-                    System.out.println("fps: " + IjWindow.lastFrames);
+//                    System.out.println("fps: " + IjWindow.lastFrames);
 
                     if(Mouse.isButtonDown(0)) {
 
@@ -126,6 +126,19 @@ public class SBC {
                         }
                     } else if(Mouse.isButtonDown(1)) {
                             player.getPlanet().setBlock(player.getPX(), player.getPY(), player.getPZ(), Block.STONE);
+//                        if(SBC.isClient) {
+                            try {
+                                Client.dataOutputStream.writeByte(2);
+                                Client.dataOutputStream.writeInt(Block.STONE.getID());
+                                Client.dataOutputStream.writeInt(player.getPX());
+                                Client.dataOutputStream.writeInt(player.getPY());
+                                Client.dataOutputStream.writeInt(player.getPZ());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+//                        } else {
+//                            System.out.println("placing " + block.getID() + " at " + x + " " + y + " " + z);
+//                        }
                     }
 
 //                        player.setY(-32);
