@@ -128,9 +128,9 @@ public class Block {
         int texid = getTextureID();
 //
         // Move to location of block
-        float xp = xO + (x * BLOCK_SIZE * 2);
-        float yp = yO + (y * BLOCK_SIZE * 2);
-        float zp = zO + (z * BLOCK_SIZE * 2);
+        float xp = xO + (x * BLOCK_SIZE * 2) + BLOCK_SIZE / 2;
+        float yp = yO + (y * BLOCK_SIZE * 2) + BLOCK_SIZE / 2;
+        float zp = zO + (z * BLOCK_SIZE * 2) + BLOCK_SIZE / 2;
 
         floor += yp;
         ceiling += yp;

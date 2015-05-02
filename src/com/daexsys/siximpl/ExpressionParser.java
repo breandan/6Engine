@@ -5,7 +5,6 @@ import com.daexsys.ijen3D.Renderer;
 import com.daexsys.sixapi.SixCache;
 import com.daexsys.sixapi.SixSet;
 import com.daexsys.sixapi.SixWorld;
-import com.daexsys.siximpl.MengerGenerator;
 
 public class ExpressionParser {
     /**
@@ -109,7 +108,7 @@ public class ExpressionParser {
                     IjWindow.addProcess(new Renderer() {
                         @Override
                         public void render() {
-                            SBC.getUniverse().getPlanetAt(0, 0, 0).rebuildRenderGeometry();
+                            SixEngineClient.getUniverse().getPlanetAt(0, 0, 0).rebuildRenderGeometry();
                             IjWindow.removeProcess(this);
                         }
                     });

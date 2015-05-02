@@ -44,7 +44,9 @@ public class SixEntity extends Entity {
      * @return the X coordinate of the chunk the entity is in
      */
     public int getChunkX() {
-        return (int) getX() / 25;
+        //32 = 16 blocks per chunk * block size (2)
+        //(Chunk.CHUNK_SIZE * (int) Block.BLOCK_SIZE * 2)
+        return (int) getX() / 32;
     }
 
     /**
@@ -52,7 +54,7 @@ public class SixEntity extends Entity {
      * @return the Y coordinate of the chunk the entity is in
      */
     public int getChunkY() {
-        return (int) getY() / 25;
+        return (int) getY() / 32;
     }
 
     /**
@@ -60,6 +62,6 @@ public class SixEntity extends Entity {
      * @return the Z coordinate fo the chunk the entity is in
      */
     public int getChunkZ() {
-        return (int) getZ() / 25;
+        return (int) getZ() / 32;
     }
 }

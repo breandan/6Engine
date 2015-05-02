@@ -1,6 +1,6 @@
 package com.daexsys.siximpl.entity;
 
-import com.daexsys.siximpl.SBC;
+import com.daexsys.siximpl.SixEngineClient;
 import com.daexsys.siximpl.world.block.Block;
 
 public class BPlacer extends SixEntity {
@@ -18,24 +18,24 @@ public class BPlacer extends SixEntity {
     public void logic() {
         super.logic();
         age++;
-        if(age > 1000) SBC.entityGroup.removeEntity(this);
+        if(age > 1000) SixEngineClient.entityGroup.removeEntity(this);
 
         moveInAngle(a, b, 0.3f);
 
-        Block block = SBC.getPlayer().getPlanet().getBlock(getPX(), getPY(), getPZ());
+        Block block = SixEngineClient.getPlayer().getPlanet().getBlock(getPX(), getPY(), getPZ());
 //        System.out.println("block at " + getPX() + " " + getPY() + " " + getPZ() + " is " + block);
 
         if(block == Block.GRASS || block == Block.DIRT) {
-            if(SBC.player.getPX() < getPX()) {
-                SBC.getPlayer().getPlanet().setBlock(getPX() -1, getPY(), getPZ(), Block.DIRT);
-            } else if(SBC.player.getPX() < getPZ()) {
-                SBC.getPlayer().getPlanet().setBlock(getPX(), getPY(), getPZ() -1, Block.DIRT);
+            if(SixEngineClient.player.getPX() < getPX()) {
+                SixEngineClient.getPlayer().getPlanet().setBlock(getPX() -1, getPY(), getPZ(), Block.DIRT);
+            } else if(SixEngineClient.player.getPX() < getPZ()) {
+                SixEngineClient.getPlayer().getPlanet().setBlock(getPX(), getPY(), getPZ() -1, Block.DIRT);
             }
-            if(SBC.player.getPY() > getPY()) {
-                SBC.getPlayer().getPlanet().setBlock(getPX(), getPY() + 1, getPZ(), Block.DIRT);
+            if(SixEngineClient.player.getPY() > getPY()) {
+                SixEngineClient.getPlayer().getPlanet().setBlock(getPX(), getPY() + 1, getPZ(), Block.DIRT);
             }
 //            System.out.println("placing at " + getPX() + " " + getPY() + " " + getPZ());
-            SBC.entityGroup.removeEntity(this);
+            SixEngineClient.entityGroup.removeEntity(this);
         }
     }
 

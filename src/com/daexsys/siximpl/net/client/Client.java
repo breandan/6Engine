@@ -2,10 +2,9 @@ package com.daexsys.siximpl.net.client;
 
 import com.daexsys.ijen3D.IjWindow;
 import com.daexsys.ijen3D.Renderer;
-import com.daexsys.siximpl.SBC;
+import com.daexsys.siximpl.SixEngineClient;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.chunk.Chunk;
-import org.lwjgl.Sys;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -74,7 +73,7 @@ public class Client {
                                     }
                                 }
 
-                                SBC.getUniverse().getPlanetAt(0, 0, 0).addChunk(chunk);
+                                SixEngineClient.getUniverse().getPlanetAt(0, 0, 0).addChunk(chunk);
 
                                 IjWindow.addProcess(new Renderer() {
                                     @Override
@@ -93,7 +92,7 @@ public class Client {
 
                                 System.out.println("Block placement occured at: " + x + " " + y + " " + z);
 
-                                SBC.getUniverse().getPlanetAt(0, 0, 0).setBlock(x, y, z, Block.STONE);
+                                SixEngineClient.getUniverse().getPlanetAt(0, 0, 0).setBlock(x, y, z, Block.STONE);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();

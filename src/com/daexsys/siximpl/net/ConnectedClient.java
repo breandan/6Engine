@@ -274,7 +274,7 @@ public class ConnectedClient implements Runnable {
 //        OctaveGenerator octaveGenerator = new SimplexOctaveGenerator(seed, 3);
 //        octaveGenerator.setScale(.009);
 //        return new Double(octaveGenerator.noise(x, z, 0.0001, 0.0001) * 10).intValue() + 21;
-        return new Random().nextInt(2);
+        return new Random().nextInt(2) + 25;
     }
 
     public DataOutputStream getDataOutputStream() {

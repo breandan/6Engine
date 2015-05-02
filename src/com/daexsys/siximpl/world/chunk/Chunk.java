@@ -3,7 +3,7 @@ package com.daexsys.siximpl.world.chunk;
 import com.daexsys.ijen3D.IjWindow;
 import com.daexsys.ijen3D.Renderer;
 import com.daexsys.siximpl.BlockCoord;
-import com.daexsys.siximpl.SBC;
+import com.daexsys.siximpl.SixEngineClient;
 import com.daexsys.siximpl.entity.Player;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.planet.Planet;
@@ -19,7 +19,7 @@ public class Chunk {
     public static final int CHUNK_SIZE = 16;
 
     // The planet this chunk is on
-    private Planet world = SBC.getUniverse().getPlanetAt(0, 0, 0);
+    private Planet world = SixEngineClient.getUniverse().getPlanetAt(0, 0, 0);
 
     private int chunkX = 0;
     private int chunkY = 0;
@@ -255,7 +255,7 @@ public class Chunk {
             if(empty) return;
             if(rebuilding) return;
 
-            Player player = SBC.getPlayer();
+            Player player = SixEngineClient.getPlayer();
 
             int cX = player.getChunkX();
             int cY = player.getChunkY() * -1;

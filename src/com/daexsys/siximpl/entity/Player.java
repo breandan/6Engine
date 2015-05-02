@@ -1,8 +1,7 @@
 package com.daexsys.siximpl.entity;
 
-import com.daexsys.ijen3D.net.server.Server;
 import com.daexsys.siximpl.BlockCoord;
-import com.daexsys.siximpl.SBC;
+import com.daexsys.siximpl.SixEngineClient;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.planet.Planet;
 import org.lwjgl.input.Keyboard;
@@ -28,9 +27,11 @@ public class Player extends SixEntity {
         try {
             delta = 9;
 
-            Block block = getPlanet().getBlock(getPX(), getPY() - 2, getPZ());
+            Block block = getPlanet().getBlock(getPX(), getPY(), getPZ());
 
             logic2(delta);
+
+//            Rectangle rectangle = new Rectangle((int) getPX(), (int) getPZ(), 1, 1);
 
             setY(getY() + vertSpeed * delta);
             walk(ya * delta, xa * delta);
@@ -50,16 +51,20 @@ public class Player extends SixEntity {
 
     }
 
+//    public boolean collision(Rectangle rectangle) {
+//
+//    }
+
     public int getPX() {
-        return new Double(getX() / Block.BLOCK_SIZE * 2).intValue();
+        return new Double(getX() / 2f).intValue();
     }
 
     public int getPY() {
-        return new Double(getY() * -1 / Block.BLOCK_SIZE * 2).intValue();
+        return new Double(getY() * -1 / 2f).intValue();
     }
 
     public int getPZ() {
-        return new Double(getZ() / Block.BLOCK_SIZE * 2).intValue();
+        return new Double(getZ() / 2f).intValue();
     }
 
     public BlockCoord getNearestBlock() {
@@ -160,10 +165,9 @@ public class Player extends SixEntity {
      * Currently attempt to generate a 3x3x3 area of chunks.
      */
     public void generateAroundPlayer() {
-//        System.out.println("Setting at " + getPX() + " " + getPY() + " " + getPZ());
-//        SBC.getUniverse().getPlanetAt(0,0,0).setBlockNoRebuild(getPX(), getPY(), getPZ(), Block.DIRT);
         try {
-            DataOutputStream dataOutputStream = new DataOutputStream(SBC.client.socket.getOutputStream());
+            DataOutputStream dataOutputStream = new DataOutputStream(SixEngineClient.client.socket.getOutputStream());
+
             dataOutputStream.writeByte(5);
             dataOutputStream.writeInt(getChunkX());
             dataOutputStream.writeInt(getChunkY());
@@ -171,23 +175,5 @@ public class Player extends SixEntity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                int cX = getChunkX();
-//                int cY = getChunkY();
-//                int cZ = getChunkZ();
-//
-//                for (int i = cX - 2; i < cX + 2; i++) {
-//                    for (int k = cZ - 2; k < cZ + 2; k++) {
-//                        for (int j = cY - 2; j < cY + 2; j++) {
-//                            getPlanet().attemptGeneration(i, j, k);
-//                        }
-//                    }
-//                }
-//            }
-//        }).start();
     }
 }

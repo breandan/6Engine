@@ -1,22 +1,33 @@
 package com.daexsys.siximpl;
 
-import com.daexsys.siximpl.entity.Player;
 import com.daexsys.siximpl.net.Server;
 import com.daexsys.siximpl.world.Universe;
 
 public class ServerGame {
+    private static Universe serverUniverse;
+
+    /**
+     * The SixEngine server.
+     * @param args no arguments
+     */
     public static void main(String[] args) {
-
-        SBC.isClient = false;
-
-        new Thread(new Runnable() {
+        // Start server thread. This is where connections are accepted.
+        Thread serverThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Server.startServer();
             }
-        }).start();
-        SBC.universe = new Universe();
-        SBC.player = new Player(SBC.getUniverse().getPlanetAt(0, 0, 0), 0,0,0);
-        System.out.println("Server started");
+        });
+        serverThread.setName("6Engine Server Thread");
+        serverThread.start();
+
+        serverUniverse = new Universe();
+        SixEngineClient.universe = getServerUniverse();
+
+        System.out.println("[6Engine] Server started");
+    }
+
+    public static Universe getServerUniverse() {
+        return serverUniverse;
     }
 }

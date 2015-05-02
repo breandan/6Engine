@@ -2,16 +2,12 @@ package com.daexsys.siximpl.world.planet;
 
 import com.daexsys.sixapi.SixWorld;
 import com.daexsys.ijen3D.entity.EntityGroup;
-import com.daexsys.siximpl.SBC;
 import com.daexsys.siximpl.entity.SixEntity;
-import com.daexsys.siximpl.net.client.Client;
 import com.daexsys.siximpl.world.block.Block;
 import com.daexsys.siximpl.world.chunk.Chunk;
 import com.daexsys.siximpl.world.chunk.ChunkLevel;
-import com.daexsys.siximpl.world.chunk.ChunkRow;
 import com.daexsys.siximpl.world.planet.generator.PlanetGenerator;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
