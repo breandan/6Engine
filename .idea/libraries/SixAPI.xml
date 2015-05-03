@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="DepthZ">
+  <library name="SixAPI">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/DepthZ.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/SixAPI.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
