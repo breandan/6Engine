@@ -19,4 +19,6 @@ For updates on 6Engine development, follow: https://twitter.com/Cactose
 ## Contributing
 
 To contribute fork and check out the project, then send a pull request with your changes.
-By contributing to this project, you are licensing your contribution under the LICENSE.
+
+This project is licensed under the terms of the UNLICENSE. In short, you can do whatever you want with it.
+By contributing to this project, you are releasing your contribution(s) under the UNLICENSE.
