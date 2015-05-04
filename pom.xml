@@ -20,5 +20,30 @@
             <artifactId>lwjgl_util</artifactId>
             <version>2.8.4</version>
         </dependency>
+
+        <dependency>
+            <groupId>ijen3D</groupId>
+            <artifactId>com.daexsys</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/ijen3D.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>sixapi</groupId>
+            <artifactId>com.daexsys</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/6API.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>depthz</groupId>
+            <artifactId>com.daexsys</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/DepthZ.jar</systemPath>
+        </dependency>
+
     </dependencies>
 </project>

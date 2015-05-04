@@ -101,7 +101,7 @@ public class ExpressionParser {
                 public void run() {
                     MengerGenerator mengerGenerator = new MengerGenerator(block, level, x, y, z);
                     System.out.println("Placing in world...");
-                    mengerGenerator.getSixCache().apply(sixWorld, x, y, z);
+                    mengerGenerator.getSixCache().apply(sixWorld);
                     System.out.println("Menger generated");
 
 //                    System.exit(0);

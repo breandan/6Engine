@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="ijen3D">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/ijen3D.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

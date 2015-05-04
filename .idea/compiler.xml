@@ -25,5 +25,8 @@
         <module name="6Engine" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="6Engine" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>

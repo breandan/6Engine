@@ -1,13 +1,6 @@
 <component name="libraryTable">
   <library name="lwjgl">
-    <CLASSES>
-      <root url="jar://D:/Users/Matthew/Downloads/lwjgl-2.9.0/jar/lwjgl.jar!/" />
-      <root url="jar://D:/Users/Matthew/Downloads/lwjgl-2.9.0/jar/lwjgl_util.jar!/" />
-      <root url="jar://D:/Users/Matthew/Downloads/lwjgl-2.9.0/jar/jinput.jar!/" />
-      <root url="jar://D:/Users/Matthew/Downloads/lwjgl-2.9.0/jar/lwjgl-debug.jar!/" />
-      <root url="jar://D:/Users/Matthew/Downloads/lwjgl-2.9.0/jar/lwjgl_test.jar!/" />
-      <root url="jar://D:/Users/Matthew/Downloads/lwjgl-2.9.0/jar/lwjgl_util_applet.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
   </library>
